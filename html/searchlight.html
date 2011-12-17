@@ -1,0 +1,211 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>M-File Help: dml.searchlight</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">M-File Help: dml.searchlight</td>
+            <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
+         </tr>
+      </table>
+      <div class="title">dml.searchlight</div>
+      <div class="helptext"><pre><!--helptext -->  SEARCHLIGHT searchlight analysis
+ 
+    DESCRIPTION
+    The searchlight uses a sphere with a certain radius and stepsize in order 
+    to scan a volume and classify based on elements inside the sphere. 
+    Subsequently one may either:
+    * Use m.model to return the performance estimates throughout the volume
+    * Select the best n spheres and retrieve this subset for the input data. 
+      The number nspheres is computed using a nested cross-validation with 
+      the specified validator.
+ 
+    EXAMPLE:
+ 
+    X = rand(10,1000); Y = [1 1 1 1 1 2 2 2 2 2]';
+ 
+    Perform searchlight and return classification accuracy computed with a 
+    default crossvalidator and mapped back to the standard volume. 
+ 
+    indims = [10 10 10];
+    m = <span class="helptopic">dml.searchlight</span>('step',2,'radius',2,'indims',indims,'verbose',true);
+    m = m.train(X,Y); r = m.model;
+ 
+    Alternatively, a multidimensional logical mask can be used to specify
+    the input dimensions and restrict to a subset of the original volume; the
+    original volume will still be used to estimate the searchlight
+    spheres:
+ 
+    mymask = true(10,10,10); mymask(:,:,1:5) = false;
+    m = <span class="helptopic">dml.searchlight</span>('step',2,'radius',2,'mask',mymask,'verbose',true);
+    m = m.train(X(:,find(mymask(:))),Y); r = m.model;
+ 
+    We may also specify a different, irregular, neighbourhood structure
+    in conjunction with the input dimanions or a particular mask:
+ 
+    mymask = true(10,10,10); mymask(:,:,1:5) = false;
+    nb = sparse(1000,1000); prm = randperm(1e6); nb(prm(1:1000)) = 1; nb = (nb + nb') ~= 0;
+    m = <span class="helptopic">dml.searchlight</span>('step',2,'radius',2,'neighbours',nb,'mask',mymask,'verbose',true);
+    m = m.train(X(:,find(mymask(:))),Y); r = m.model;
+ 
+    The output of this searchlight analysis can also be used for feature selection.
+    In that case, one needs to specify nspheres, containing the numbers of
+    spheres to test. The optimal subset of spheres will be determined using
+    the specified crossvalidator:
+ 
+   mymask = true(10,10,10);
+   m = <span class="helptopic">dml.searchlight</span>('nspheres',[1 2 3 4 5],'step',2,'radius',2,'mask',mymask,'verbose',true);
+   m = m.train(X,Y); r = m.model;
+</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('dml.method')">dml.method</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.searchlight')">searchlight</a></td>
+            <td class="m-help">  SEARCHLIGHT searchlight analysis&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.indims')">indims</a></td>
+            <td class="m-help">indims -  specification of input dimensions&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.radius')">radius</a></td>
+            <td class="m-help">radius -  radius of the hypersphere in terms of array elements (diameter will be 1 + 2 * radius).&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.step')">step</a></td>
+            <td class="m-help">step -  stepsize in terms of array elements    &nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.mask')">mask</a></td>
+            <td class="m-help">mask -  optional logical mask of size indims (input features are only those in the mask)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.neighbours')">neighbours</a></td>
+            <td class="m-help">neighbours -  a sparse adjacency matrix specifying the neighbourhood structure for irregular data (don't use in conjunction
+               with mask)&nbsp;
+            </td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.stats')">stats</a></td>
+            <td class="m-help">stats -  the statistics to save in value&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.center')">center</a></td>
+            <td class="m-help">center -  only selects the feature in the centre of the sphere if true&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.exclude')">exclude</a></td>
+            <td class="m-help">exclude -  if false then only the center within a sphere is required to be part of the optional mask&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.validator')">validator</a></td>
+            <td class="m-help">validator -  the validator used to determine the final used feature subset&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.compact')">compact</a></td>
+            <td class="m-help">compact -  save validators if compact = false&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.nspheres')">nspheres</a></td>
+            <td class="m-help">nspheres -  select the union of the best nspheres spheres; &nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.performance')">performance</a></td>
+            <td class="m-help">performance -  performance as function of number of selected spheres (or sphere centers)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.centers')">centers</a></td>
+            <td class="m-help">centers -  centers of each sphere&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.spheres')">spheres</a></td>
+            <td class="m-help">spheres -  the features belonging to each sphere&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.original')">original</a></td>
+            <td class="m-help">original -  in original space&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.value')">value</a></td>
+            <td class="m-help">value -  evaluation metric per sphere&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.subset')">subset</a></td>
+            <td class="m-help">subset -  the used feature subset&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.verbose')">verbose</a></td>
+            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.restart')">restart</a></td>
+            <td class="m-help">  when false, starts at the previously learned parameters &nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.model')">model</a></td>
+            <td class="m-help">  return performance mapped back to original space&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.estimate_spheres')">estimate_spheres</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.test')">test</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.searchlight.train')">train</a></td>
+            <td class="m-help">  multiple datasets&nbsp;</td>
+         </tr>
+      </table>
+   </body>
+</html>

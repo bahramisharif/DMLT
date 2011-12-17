@@ -1,0 +1,125 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>M-File Help: dml.whiten</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">M-File Help: dml.whiten</td>
+            <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
+         </tr>
+      </table>
+      <div class="title">dml.whiten</div>
+      <div class="helptext"><pre><!--helptext --> WHITEN whitens the data
+ 
+   DESCRIPTION
+   Whitening of data through a whitening matrix W. Input data will be 
+   standardized automatically.
+ 
+    EXAMPLE
+    X = rand(10,200);
+    m = <span class="helptopic">dml.whiten</span>('indim',[2 100],'tdim',1);
+    m = m.train(X);
+    Z = m.test(X);
+</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('dml.method')">dml.method</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.whiten')">whiten</a></td>
+            <td class="m-help"> WHITEN whitens the data&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.W')">W</a></td>
+            <td class="m-help">W -  whitening matrix&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.invW')">invW</a></td>
+            <td class="m-help">invW -  inverse whitening matrix&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.tdim')">tdim</a></td>
+            <td class="m-help">tdim -  target dimension&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.indim')">indim</a></td>
+            <td class="m-help">indim -  input dimensions&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.std')">std</a></td>
+            <td class="m-help">std -  standardizer object&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.verbose')">verbose</a></td>
+            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.whiten.restart')">restart</a></td>
+            <td class="m-help">  when false, starts at the previously learned parameters &nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.whiten.invert')">invert</a></td>
+            <td class="m-help">  invert mapping&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.whiten.test')">test</a></td>
+            <td class="m-help">  standardize&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.whiten.train')">train</a></td>
+            <td class="m-help">  handle multiple datasets&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.whiten.model')">model</a></td>
+            <td class="m-help">  this method does not return a model&nbsp;</td>
+         </tr>
+      </table>
+   </body>
+</html>

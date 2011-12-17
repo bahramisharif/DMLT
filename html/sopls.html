@@ -1,0 +1,162 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>M-File Help: dml.sopls</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">M-File Help: dml.sopls</td>
+            <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
+         </tr>
+      </table>
+      <div class="title">dml.sopls</div>
+      <div class="helptext"><pre><!--helptext -->  SOPLS sparse orthonormalized partial least squares
+ 
+    DESCRIPTION
+ 
+    SOPLS estimates a model of the form Z = PX + C, Y = QZ.
+ 
+    lambda_min specifies the fraction of the maximal lambda value (computed
+    by glmnet) for which the output will be returned. 
+ 
+    alpha specifies the balance between ridge regression (alpha=0) and lasso
+    regression (alpha=1).
+ 
+    The number of steps taken to traverse the regularization path is given by nlambda.
+  
+    if nlambda=0 then standard partial least squares will be used.
+ 
+    pmax specifies the maximum number of variables included in the solution.
+  
+    nhidden specifies the number of used components. If it is decreased
+    during testing then the restricted number of components will be used
+    (only in case of sparse partial least squares!)
+ 
+    REFERENCES
+ 
+ 
+    EXAMPLE
+    
+    load data;
+    p = <span class="helptopic">dml.sopls</span>('nhidden',3,'verbose',true);
+    p = p.train(X(1:40,1:10),I(1:40,:));
+    r = p.test(X(41:50,1:10));
+    for j=1:10, subplot(2,5,j); imagesc(reshape(r(j,:),[16 16])); colormap(gray); axis off, end
+    figure
+    for j=1:10, subplot(2,5,j); imagesc(reshape(I(40+j,:),[16 16])); colormap(gray); axis off, end
+ 
+    v = dml.enet.lambdapath(X,Y,'gaussian',50,1e-3);
+    m = dml.gridsearch('cv',dml.crossvalidator('type','split','stat','correlation','mva',dml.enet('family','gaussian','restart',false)),'vars','L1','vals',v,'verbose',true);
+    p = <span class="helptopic">dml.sopls</span>('nhidden',3,'verbose',true,'regularizer',m);
+    p = p.train(X(1:40,1:10),I(1:40,:));
+    r = p.test(X(41:50,1:10));
+    for j=1:10, subplot(2,5,j); imagesc(reshape(r(j,:),[16 16])); colormap(gray); axis off, end
+    figure
+    for j=1:10, subplot(2,5,j); imagesc(reshape(I(40+j,:),[16 16])); colormap(gray); axis off, end
+ 
+</pre></div><!--after help -->
+      <!--Class-->
+      <div class="sectiontitle">Class Details</div>
+      <table class="class-details">
+         <tr>
+            <td class="class-detail-label">Superclasses</td>
+            <td><a href="matlab:helpwin('dml.method')">dml.method</a></td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Sealed</td>
+            <td>false</td>
+         </tr>
+         <tr>
+            <td class="class-detail-label">Construct on load</td>
+            <td>false</td>
+         </tr>
+      </table>
+      <!--Constructors-->
+      <div class="sectiontitle"><a name="constructors"></a>Constructor Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.sopls')">sopls</a></td>
+            <td class="m-help">  SOPLS sparse orthonormalized partial least squares&nbsp;</td>
+         </tr>
+      </table>
+      <!--Properties-->
+      <div class="sectiontitle"><a name="properties"></a>Property Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.nhidden')">nhidden</a></td>
+            <td class="m-help">nhidden -  number of hidden units; estimated using leave-one-out if an array&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.Q')">Q</a></td>
+            <td class="m-help">Q -  output matrix&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.P')">P</a></td>
+            <td class="m-help">P -  input matrix&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.C')">C</a></td>
+            <td class="m-help">C -  hidden bias vector&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.score')">score</a></td>
+            <td class="m-help">score -  leave-one-out score&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.G')">G</a></td>
+            <td class="m-help">G -  trained ft_mv_glmnet objects&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.method')">method</a></td>
+            <td class="m-help">method -  'pls' (non-sparse), 'opls' (non-sparse orthonormal), 'sopls' (sparse opls)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.regularizer')">regularizer</a></td>
+            <td class="m-help">regularizer -  default regularizer&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.verbose')">verbose</a></td>
+            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.sopls.restart')">restart</a></td>
+            <td class="m-help">  when false, starts at the previously learned parameters &nbsp;</td>
+         </tr>
+      </table>
+      <!--Methods-->
+      <div class="sectiontitle"><a name="methods"></a>Method Summary
+      </div>
+      <table class="summary-list">
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.sopls.test')">test</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.sopls.train')">train</a></td>
+            <td class="m-help">&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.sopls.model')">model</a></td>
+            <td class="m-help">  this method does not return a model&nbsp;</td>
+         </tr>
+      </table>
+   </body>
+</html>

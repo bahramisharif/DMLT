@@ -1,0 +1,37 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>M-File Help: dml.statistic</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">M-File Help: dml.statistic</td>
+            <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
+         </tr>
+      </table>
+      <div class="title">dml.statistic</div>
+      <div class="helptext"><pre><!--helptext -->  STATISTIC test statistics
+ 
+    DESCRIPTION
+    Computes test statistic stat for a nsamples x nvars design matrix D and a
+    nsamples x nvars prediction matrix P
+ 
+    available statistics:
+    'accuracy'    : proportion of correctly classified samples
+    'logprob'     : log probability of the correct class
+    'correlation' : correlation between input and output matrices
+    'contingency' : contingency matrix (rows=true class, columns=predicted class)
+    'confusion'   : confusion matrix (rows=true class, columns=predicted class)
+    'binomial'    : binomial test gives p value for significant
+                    classification; takes uneven class distributions into
+                    account
+ 
+    EXAMPLE
+    s = <span class="helptopic">dml.statistic</span>('accuracy',D,P)
+</pre></div><!--after help -->
+   </body>
+</html>
