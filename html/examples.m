@@ -1,7 +1,7 @@
 %% Examples
 % In the following examples we will make use of a neuroimaging dataset
 % acquired at the Donders Institute. This data and a description can be
-% downloaded from https://sites.google.com/site/cogneurodynamics/data
+% downloaded from http://www.distrep.org/data
 load 69digits
 
 %% Elastic net regression
@@ -41,7 +41,7 @@ bar(m.model.weights);
 v = dml.enet.lambdapath(X,Y,'binomial',50,1e-2);
 %%
 % and then we use it in a gridsearch
-m = dml.gridsearch('cv',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('family','binomial','restart',false)),'vars','L1','vals',v);
+m = dml.gridsearch('validator',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('family','binomial','restart',false)),'vars','L1','vals',v);
 tic; m = m.train(X,Y); toc
 %%
 % In order to see how performance changes as a function of L1, we can use
@@ -66,24 +66,7 @@ subplot(1,2,2); bar(m.model.weights);
 m = dml.glmnet;
 tic; m = m.train(X,Y); toc;
 close; bar(m.model.weights);
-
-%% Bayesian logistic regression with a multivariate Laplace prior
-
-%% Sparse orthonormalized partial least squares
-
-%% Dealing with neural data
-%
-% MLN also offers support for handling and visualizing neural data. For
-% instance, suppose we trained the following model:
-m = dml.naive;
-m = m.train(X,Y);
-w = m.model.divergence;
 %%
-% Then, we can plot the contributions to the decoding back to brain space as follows:
-M=mask; M(M) = w;
-subplot(1,2,1); imagesc(mean(abs(M),3)); axis off; axis square; 
-subplot(1,2,2); imagesc(mean(structural,3)); axis off; axis square
-%%
-% It may be more convenient however to write these files to NIFTI format
-% such that the data can be handled by standard fMRI packages:
-
+% We can plot the contributions to the decoding back to brain space as follows:
+M=mask; M(M) = m.model.weights;
+imagesc(1e4*mean(abs(M),3)+mean(structural,3)); axis off; axis square;

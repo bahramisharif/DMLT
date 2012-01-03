@@ -1,5 +1,5 @@
 classdef analysis
-% ANALYSIS multivariate analysis class
+% ANALYSIS multivariate analysis class.
 %   
 %   DESCRIPTION
 %   A multivariate analysis contains a cell array of multivariate methods 

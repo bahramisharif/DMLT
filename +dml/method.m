@@ -1,5 +1,5 @@
 classdef method
-% METHOD abstract class for multivariate methods
+% METHOD abstract class for multivariate methods.
 %
 %   DESCRIPTION
 %   The method class should not be called directly but forms the basis for 

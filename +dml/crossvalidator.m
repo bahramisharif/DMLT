@@ -1,8 +1,8 @@
 classdef crossvalidator
-% CROSSVALIDATOR crossvalidation class
+% CROSSVALIDATOR crossvalidation class.
 %
 %   DESCRIPTION
-%   The crossvalidator class allows automation of crossvalidation. It uses a
+%   The crossvalidator class performs crossvalidation. It uses a
 %   particular crossvalidation on a multivariate analysis specified in the
 %   property mva.
 %
@@ -145,10 +145,9 @@ classdef crossvalidator
         end
         
         % return unique model instead of cell array in case of one fold
-        if length(obj.model)==1
-          obj.model = obj.model{1};
-        end
+        if length(obj.model)==1, obj.model = obj.model{1}; end
         
+       
       end
       
       function [train,test] = create_folds(obj,Y)
@@ -156,7 +155,11 @@ classdef crossvalidator
       
       if strcmp(obj.type,'loo')
         obj.type = 'nfold';
-        obj.folds = min(cellfun(@(x)(size(x,1)),Y));
+        if iscell(Y)
+          obj.folds = min(cellfun(@(x)(size(x,1)),Y));
+        else
+          obj.folds = size(Y,1);
+        end
       end
       if strcmp(obj.type,'split'), obj.folds = 1; end
       
@@ -374,7 +377,7 @@ classdef crossvalidator
         
         if nargin<2, stat = obj.stat; end
       
-        if iscell(obj.design{1})
+        if iscell(obj.design{1}) && iscell(obj.result{1})
           
           s = zeros(length(obj.design),1);
           for c=1:length(obj.design{1}) % iterate over datasets

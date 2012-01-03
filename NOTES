@@ -1,0 +1,176 @@
+% Developer notes
+
+% what about the priors in dml.likelihood????
+% timeseries stuff
+% meta stuff
+
+
+%% Timeseries analysis
+%
+% To do
+%
+%% Processing neural data
+%
+% To do
+%
+%% Parallelization
+%
+% To do
+%
+
+% multiple outputs (e.g. blogreg)
+
+
+% Methods which become part of the MLN toolbox should also provide an entry
+% in the function reference (html/funct.m). HTML code is generated for
+% funct.m, guide.m and examples.m using Matlab's publish function
+
+%method documentation is generated automatically by calling update.m in the html/ folder.
+
+Use html/update.m to create help files for new multivariate methods
+
+
+% TO DO
+% 
+% - check EM code for mixture models
+% - test dynamic_clf and also make dynamic_regr/static_regr
+% - repeated calls to train should allow for online learning as much as possible
+% - rethink significance testing (binomial,wilcoxon,permutation) and also implement for regressor
+% - return standard error of mean as second argument of evaluate
+% - better handling of checking of datasets for each method
+% - rewrite handling of timeseries...
+% - allow arbitrary labels for the classifiers
+% - getmodel add descriptions and make sure they can be remapped (e.g.,
+%   featureselector)
+% - blogreg blinreg return used scale when using multiple updates
+% - what is positive and negative class? be consistent over datasets wrt
+%   getmodel
+% - test validator.getmodel for transfer learners
+% - automate recompilation of mex files
+% - IMPLEMENT BLINREG / BLINREG_TRANSFER
+% - check dynamic_classifier and static_classifier code and derivates
+% - throw out redundant svm classifiers; check speed and accuracy
+% - make one_against_one/rest estimate and map functions suitable for
+%   transfer_learning; currently not supported
+% - rewrite one_against_one, combiner etc such that transfer learning is
+%   used on the separate datasets. This simplifies code and allows for more complex designs 
+% - how to handle multiple regression vs regressors/classifiers that return
+%   mean + error estimates? see e.g. the kalman filter
+% - clean up nclasses field
+% - add wilcoxon test; add multiple outputs for evaluate/significance
+% - crossvalidator 278: roundoff error changes the actual number of used
+%   samples; can go wrong with skewed unique samples; also for ten-fold
+% - timeseries: implementation for infinite horizon; finite horizon always
+%   represented as a static classifier/regressor
+% - getposteriors in validator should also get a getpredictions; think
+%   again about giving back multiple moments
+% - mva.getmodel moet alle modellen terug kunnen geven voor alle mvmethods
+%   (compact true moet toch alle modellen aankunnen)
+% - one_against_* should pass input dimensions to inner method
+% - elasticlr for multinomial classes should be implemented
+% - make evaluators and significance separate (arbitrary) functions that
+%   operate on the design matrix; same holds for filter in feature selector
+% - connect to matlabbatch
+
+We removed all transfer_learner, handling of multiple datasets, and ensemble options.
+It is easier to handle ensemble stuff via a dedicated ensemble class (without obscuring the code).
+
+classes labels should be of the form 1:N
+
+Removed untest capability
+
+Removed predict capability
+
+indims and outdims now contains trials as well
+
+discrete data is represented as an N x K matrix similar to the posteriors
+
+we only add well documented and well tested methods 
+
+experimental stuff remains in a separate folder
+
+methods can support: 
+missing data (nan)
+multiple datasets
+initialization of parameters on old values
+
+model should be unambiguously defined
+
+support multicore/multiple machines
+
+matlabbatch integration?
+
+ensemble method powerful basis for multicore, reconstructors, one-against-one etc
+
+avoid nfolds duplicate notation in crossvalidator
+
+folds,datasets as representation in cv
+handle multiple cell outputs
+separate folds computation for each dataset
+create example datasets which I can use later (with thorough description)
+
+we do not use handle classes! problems with creating object copies and breaks previous functionality
+
+function (collections) should be in utilities folder (metrics, filters, etc)
+
+do we want to separate model and parameters? check consequences for not doing so (e.g., online learning)
+
+check if optimizer allows efficient relearning of parameters
+
+make ensemble and optimizer suitable for multicore + grid computing
+
+make stuff suitable for GPU programming
+
+check stratify and crossvalidate in general!!!
+
+check as fast as possible behaviour with multiple datasets. 
+check output of model and reshaping dimensions etc
+
+>> obj.(p.name) = p.name
+>> edit ft_mv_naive
+>> ensemble cell array as mvas and X,Y
+cell input for non-transfer learners should be handled by the (parallel) ensemble method
+
+parallelize blogreg scale?
+
+parallelize EP?
+
+blogreg: test transfer learn, use of mask, multiple scales
+
+add sparse PLS with fast elastic
+
+think about parafac/ica/pca/whitening
+
+====
+
+- add figures for how data is interpreted
+- make the repesentation consistent for timeseries
+- remove all redundant code
+- remove all useless methods
+- delegate work to code authors or remove it
+- put experimental stuff in a separate experimental local folder and only migrate when fully stable and documented
+- add examples
+
+- MOVE gridsearch,one_against, ensemble, ft_mv_lik to the meta folder (arguments are other mva methods)
+
+- preprocessing toolbox also contains filtering/decomposition etc. Do we want this?
+
+- commit, checkout new version and add experimental stuff to development/fieldtrip!
+
+- add meta info: suitable for multiple datasets, batch/online, tested platforms, REFERENCES???
+
+- describe input and output X, Y post very rigorously and in a probabilistic manner
+
+- version testing?
+
+
+=====
+
+- how is the glmnet bias term handled? Is it regularized?
+
+- why do searchlight and crossvalidate become slower and slower as we go?
+
+
+
+
+

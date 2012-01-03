@@ -1,5 +1,5 @@
 classdef searchlight < dml.method
-% SEARCHLIGHT searchlight analysis
+% SEARCHLIGHT searchlight analysis.
 %
 %   DESCRIPTION
 %   The searchlight uses a sphere with a certain radius and stepsize in order 
@@ -18,7 +18,7 @@ classdef searchlight < dml.method
 %   default crossvalidator and mapped back to the standard volume. 
 %
 %   indims = [10 10 10];
-%   m = dml.searchlight('step',2,'radius',2,'indims',indims,'verbose',true);
+%   m = dml.searchlight('step',2,'radius',2,'indims',indims,'verbose',true,'stats',{'accuracy'});
 %   m = m.train(X,Y); r = m.model;
 %
 %   Alternatively, a multidimensional logical mask can be used to specify
@@ -27,7 +27,7 @@ classdef searchlight < dml.method
 %   spheres:
 %
 %   mymask = true(10,10,10); mymask(:,:,1:5) = false;
-%   m = dml.searchlight('step',2,'radius',2,'mask',mymask,'verbose',true);
+%   m = dml.searchlight('step',2,'radius',2,'mask',mymask,'verbose',true,'stats',{'accuracy'});
 %   m = m.train(X(:,find(mymask(:))),Y); r = m.model;
 %
 %   We may also specify a different, irregular, neighbourhood structure
@@ -35,7 +35,7 @@ classdef searchlight < dml.method
 %
 %   mymask = true(10,10,10); mymask(:,:,1:5) = false;
 %   nb = sparse(1000,1000); prm = randperm(1e6); nb(prm(1:1000)) = 1; nb = (nb + nb') ~= 0;
-%   m = dml.searchlight('step',2,'radius',2,'neighbours',nb,'mask',mymask,'verbose',true);
+%   m = dml.searchlight('step',2,'radius',2,'neighbours',nb,'mask',mymask,'verbose',true,'stats',{'accuracy'});
 %   m = m.train(X(:,find(mymask(:))),Y); r = m.model;
 %
 %   The output of this searchlight analysis can also be used for feature selection.
@@ -44,8 +44,17 @@ classdef searchlight < dml.method
 %   the specified crossvalidator:
 %
 %  mymask = true(10,10,10);
-%  m = dml.searchlight('nspheres',[1 2 3 4 5],'step',2,'radius',2,'mask',mymask,'verbose',true);
+%  m = dml.searchlight('nspheres',[1 2 3 4 5],'step',2,'radius',2,'mask',mymask,'verbose',true,'stats',{'accuracy'});
 %  m = m.train(X,Y); r = m.model;
+%
+%  Instead of using a cross-validator, one may also use a permutation
+%  object to determine sphere performance:
+%
+%   indims = [10 10 10];
+%   p = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',dml.svm),'nperm',10,'verbose',true);
+%   m = dml.searchlight('step',3,'radius',2,'indims',indims,'verbose',true,'validator',p);
+%   m = m.train(X,Y); r = m.model;
+%  
 
 % Copyright (c) 2010, Marcel van Gerven
 
@@ -59,7 +68,7 @@ classdef searchlight < dml.method
     mask                  % optional logical mask of size indims (input features are only those in the mask)
     neighbours            % a sparse adjacency matrix specifying the neighbourhood structure for irregular data (don't use in conjunction with mask)
     
-    stats = {'accuracy','binomial'}  % the statistics to save in value
+    stats = {}            % the statistics to save in value (e.g. {'accuracy','binomial'}); empty stats field will just call validator.statistic
     
     center = false;       % only selects the feature in the centre of the sphere if true
     
@@ -96,13 +105,6 @@ classdef searchlight < dml.method
     end
     
     function obj = train(obj,X,Y)
-
-      % multiple datasets
-      if iscell(X) || iscell(Y)
-        obj = ft_mv_ndata('mvmethod',obj);
-        obj = obj.train(X,Y);
-        return;
-      end
       
       if isempty(obj.mask) && isempty(obj.indims)
         error('please specify input dimensions or logical mask'); 
@@ -112,11 +114,13 @@ classdef searchlight < dml.method
         obj.mask = true(obj.indims);
       end
       
-      if size(X,2) ~= nnz(obj.mask)
+      if (iscell(X) && size(X{1},2) ~= nnz(obj.mask)) || (~iscell(X) && size(X,2) ~= nnz(obj.mask))
           error('number of features should match nonzero elements in mask');
       end
       obj.indims = size(obj.mask);
        
+      if ~iscell(obj.stats), obj.stats = {obj.stats}; end
+      
       % estimate spheres      
       if obj.restart || isempty(obj.spheres)
         [obj.centers,obj.spheres,obj.original] = obj.estimate_spheres();
@@ -129,13 +133,14 @@ classdef searchlight < dml.method
       V =  obj.validator;
       if ~obj.compact, obj.validator = cell(nsp,1); end
       
-      obj.value = zeros(nsp,length(obj.stats));
+      nstats = max(1,length(obj.stats));
+      obj.value = zeros(nsp,nstats);
       for c=1:nsp
 
         if iscell(X)
           XX = cell(size(X));
           for cc=1:length(X)
-            XX{cc} = X{c}(:,obj.spheres{c});
+            XX{cc} = X{cc}(:,obj.spheres{c});
           end
           vald = V.train(XX,Y);
         else
@@ -143,8 +148,12 @@ classdef searchlight < dml.method
         end
         
         % report performance
-        for j=1:length(obj.stats)
-          obj.value(c,j) = vald.stats(obj.stats{j});
+        if isempty(obj.stats)
+          obj.value(c) = vald.statistic;
+        else
+          for j=1:nstats
+            obj.value(c,j) = vald.statistic(obj.stats{j});
+          end
         end
         
         if obj.verbose
@@ -386,7 +395,9 @@ classdef searchlight < dml.method
         
       end
       
-      m(n(:)~=0) = m(n(:)~=0) ./ n(n(:)~=0);
+      nidx = n(:)~=0;
+      m(nidx) = m(nidx) ./ n(nidx);
+      m(n(:)==0) = nan;
       
     end
     

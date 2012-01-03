@@ -1,9 +1,9 @@
 function s = statistic(stat,D,P)
-% STATISTIC test statistics
+% STATISTIC test statistics.
 %
 %   DESCRIPTION
 %   Computes test statistic stat for a nsamples x nvars design matrix D and a
-%   nsamples x nvars prediction matrix P
+%   nsamples x nvars prediction matrix P. 
 %
 %   available statistics:
 %   'accuracy'    : proportion of correctly classified samples
@@ -14,11 +14,21 @@ function s = statistic(stat,D,P)
 %   'binomial'    : binomial test gives p value for significant
 %                   classification; takes uneven class distributions into
 %                   account
+%   'MAD'        :  mean absolute deviation in circular statistics for angles 
+%                   in degrees.
+%
+%   NOTE: notation '-x' with x one of the above is also allowed. This way
+%   error measures such as 'MAD' can be used as a performance measure by
+%   dml.permutation or dml.gridsearch using '-MAD'
 %
 %   EXAMPLE
 %   s = dml.statistic('accuracy',D,P)
+%   s = dml.statistic('-MAD',D,P)
 
 % Copyright (c) 2011, Marcel van Gerven
+
+  minus = stat(1) == '-';
+  if minus, stat = stat(2:end); end
 
   nvars = size(D,2);
   nsamples = size(D,1);
@@ -70,10 +80,17 @@ function s = statistic(stat,D,P)
       k = sum(diag(contingency(D,P)));      
       s = 1 - binocdf(k-1,nsamples,mean(D==mode(D)));
       
+    case 'MAD'
+      
+      psi = abs(D-P);
+      s =360*atan2(mean(sin(psi)),mean(cos(psi)))/(2*pi);
+      
     otherwise
       error('unknown statistic %s',stat);
       
   end
+  
+  if minus, s = -s; end
   
   function y = contingency(D,P)
     % compute contingency table with true class as rows and predicted class as columns

@@ -2,27 +2,29 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    
-      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
-      <title>M-File Help: dml.blogreg</title>
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2011b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>MATLAB File Help: dml.blogreg</title>
    </head>
    <body>
       <!--Single-page help-->
       <table border="0" cellspacing="0" width="100%">
          <tr class="subheader">
-            <td class="headertitle">M-File Help: dml.blogreg</td>
+            <td class="headertitle">MATLAB File Help: dml.blogreg</td>
+            <td class="subheader-left"><a href="matlab:edit dml.blogreg">View code for dml.blogreg</a></td>
             <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
          </tr>
       </table>
       <div class="title">dml.blogreg</div>
-      <div class="helptext"><pre><!--helptext --> BLOGREG Bayesian logistic regression with a multivariate Laplace prior which
- supports spatiotemporal interactions, multitask and mixed effects models
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">blogreg</span> Bayesian logistic regression.
  
     DESCRIPTION
-    The scale property specifies the regularization. The bigger the scale,
-    the less the regression coefficients will be regularized towards zero.
-    If multiple scales are used then the optimal one will be selected based
-    on the log model evidence (recorded by the logp property).
-    Note: a bias term is added to the model and should not be included explicitly
+    Multivariate Laplace prior supports spatiotemporal interactions,
+    multitask and mixed effects models. The scale property specifies the
+    regularization. The bigger the scale, the less the regression
+    coefficients will be regularized towards zero. If multiple scales are
+    used then the optimal one will be selected based on the log model
+    evidence (recorded by the logp property). Note: a bias term is added
+    to the model and should not be included explicitly
  
     REFERENCE
     van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a
@@ -52,7 +54,7 @@
     In the examples use spy(f.prior) to look at the structure of the coupling
     matrix
  
-    f = <span class="helptopic">dml.blogreg</span>('scale',logspace(-3,0,4));
+    f = dml.blogreg('scale',logspace(-3,0,4));
     f = f.train(X1,Y1);
     f.test(X1)
  
@@ -62,7 +64,7 @@
     neighboring features in the first and second input dimension. Also,
     the input dimensions of the original data must be specified through the indims property.
  
-    f = <span class="helptopic">dml.blogreg</span>('indims',[5 10],'coupling',[100 100]);
+    f = dml.blogreg('indims',[5 10],'coupling',[100 100]);
     f = f.train(X1,Y1);
     f.test(X1)
  
@@ -71,7 +73,7 @@
     represented by X. This still allows us to use the above approach to
     specify the coupling.
  
-    f = <span class="helptopic">dml.blogreg</span>('indims',[5 10],'coupling',[100 100],'mask',mask);
+    f = dml.blogreg('indims',[5 10],'coupling',[100 100],'mask',mask);
     f = f.train(X1m,Y1);
     f.test(X1m)
  
@@ -83,13 +85,13 @@
     [ 0      T2  ]
     etc and coupling the tasks through the taskcoupling property. Data X and Y must be given by a cell-array.
  
-    f = <span class="helptopic">dml.blogreg</span>('multitask',1);
+    f = dml.blogreg('multitask',1);
     f = f.train({X1 X2},{Y1 Y2});
     f.test({X1 X2})
  
     This can also be combined with coupling of the features themselves.
  
-    f = <span class="helptopic">dml.blogreg</span>('multitask',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
+    f = dml.blogreg('multitask',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
     f = f.train({X1m X2m},{Y1 Y2});
     f.test({X1m X2m})
  
@@ -103,7 +105,7 @@
     smallest penalty in terms of sparseness. Data should be given by a
     cell-array.
  
-    f = <span class="helptopic">dml.blogreg</span>('mixed',1);
+    f = dml.blogreg('mixed',1);
     f = f.train({X1 X2}',{Y1 Y2}');
     f.test({X1 X2})
  
@@ -112,7 +114,7 @@
     fixed effects using mixed=1 and on both the fixed and random effects
     using mixed=2.
  
-    f = <span class="helptopic">dml.blogreg</span>('mixed',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
+    f = dml.blogreg('mixed',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
     f = f.train({X1m X2m}',{Y1 Y2}');
     f.test({X1m X2m})
  
@@ -122,18 +124,16 @@
     effect in the i-th subject. Note that k=1 is the fixed effect and k&gt;1 are
     the random effects.
  
-    f = <span class="helptopic">dml.blogreg</span>('mixed',1,'multitask',1);
+    f = dml.blogreg('mixed',1,'multitask',1);
     f = f.train({{X1 X2} {X1 X2}},{{Y1 Y2} {Y1 Y2}});
     f.test({{X1 X2} {X1 X2}})
  
     If mixed = 1 then the only coupling  (spatial or multitask) will be for
     the fixed effects part. For mixed = 2, also the random effects will be coupled.
  
-    f = <span class="helptopic">dml.blogreg</span>('mixed',1,'multitask',1,'coupling',[100 100],'indims',[5 10],'mask',mask);
+    f = dml.blogreg('mixed',1,'multitask',1,'coupling',[100 100],'indims',[5 10],'mask',mask);
     f = f.train({ {X1m X2m} {X1m X2m} },{ {Y1 Y2} {Y1 Y2} });
-    f.test({{X1m X2m} {X1m X2m}})
- 
-</pre></div><!--after help -->
+    f.test({{X1m X2m} {X1m X2m}})</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">
@@ -156,7 +156,7 @@
       <table class="summary-list">
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.blogreg')">blogreg</a></td>
-            <td class="m-help"> BLOGREG Bayesian logistic regression with a multivariate Laplace prior which&nbsp;</td>
+            <td class="m-help">Bayesian logistic regression.&nbsp;</td>
          </tr>
       </table>
       <!--Properties-->
@@ -164,100 +164,100 @@
       </div>
       <table class="summary-list">
          <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.nfeatures')">nfeatures</a></td>
-            <td class="m-help">  number of features; constant over tasks&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.indims')">indims</a></td>
-            <td class="m-help">  input dimensions of the data; is used to generate prior&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.prior')">prior</a></td>
-            <td class="m-help">  prior precision matrix of the auxiliary variables&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.precbias')">precbias</a></td>
-            <td class="m-help">  scale of the bias term (bias term will be appended to the model)&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.Gauss')">Gauss</a></td>
+            <td class="m-help">learned parameters&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.approximation')">approximation</a></td>
-            <td class="m-help">  (either 'probit' or gaussian 'quadrature' to approximate posterior)&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.nweights')">nweights</a></td>
-            <td class="m-help">  number of weights for gaussian quadrature&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.coupling')">coupling</a></td>
-            <td class="m-help">  coupling strength for each dimension; if numel=1 and dims &gt; 1 then&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.scale')">scale</a></td>
-            <td class="m-help">  scale parameter; applied when prior is unspecified and in&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.mask')">mask</a></td>
-            <td class="m-help">  mask that can be used to access only a subset of a volume of data&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.fraction')">fraction</a></td>
-            <td class="m-help">fraction -  fraction or power for fractional/power EP&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.niter')">niter</a></td>
-            <td class="m-help">niter -  maximum number of iterations&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.temperature')">temperature</a></td>
-            <td class="m-help">temperature -  forces MAP like behaviour for t-&gt;0&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.tolerance')">tolerance</a></td>
-            <td class="m-help">tolerance -  convergence criterion&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.degenerate')">degenerate</a></td>
-            <td class="m-help">degenerate -  whether or not to run in degenerate mode&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.Gauss')">Gauss</a></td>
-            <td class="m-help">  learned parameters&nbsp;</td>
+            <td class="m-help">(either 'probit' or gaussian 'quadrature' to approximate posterior)&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.convergence')">convergence</a></td>
-            <td class="m-help">convergence -  whether or not EP converged&nbsp;</td>
+            <td class="m-help">whether or not EP converged&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.coupling')">coupling</a></td>
+            <td class="m-help">strength for each dimension; if numel=1 and dims &gt; 1 then&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.degenerate')">degenerate</a></td>
+            <td class="m-help">whether or not to run in degenerate mode&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.fraction')">fraction</a></td>
+            <td class="m-help">fraction or power for fractional/power EP&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.indims')">indims</a></td>
+            <td class="m-help">input dimensions of the data; is used to generate prior&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.logp')">logp</a></td>
-            <td class="m-help">logp -  approximate log model evidence&nbsp;</td>
+            <td class="m-help">approximate log model evidence&nbsp;</td>
          </tr>
          <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.multitask')">multitask</a></td>
-            <td class="m-help">  coupling strength for individual tasks; each feature is coupled to&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.ntasks')">ntasks</a></td>
-            <td class="m-help">ntasks -  number of multitask components&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.taskcoupling')">taskcoupling</a></td>
-            <td class="m-help">taskcoupling -  strong task coupling by default&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.mask')">mask</a></td>
+            <td class="m-help">that can be used to access only a subset of a volume of data&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.mixed')">mixed</a></td>
-            <td class="m-help">  mixed effects model (mixed=1 only couples fixed effects with&nbsp;</td>
+            <td class="m-help">effects model (mixed=1 only couples fixed effects with&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.multitask')">multitask</a></td>
+            <td class="m-help">coupling strength for individual tasks; each feature is coupled to&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.nfeatures')">nfeatures</a></td>
+            <td class="m-help">number of features; constant over tasks&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.niter')">niter</a></td>
+            <td class="m-help">maximum number of iterations&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.nmixed')">nmixed</a></td>
-            <td class="m-help">nmixed -  number of mixed effects components&nbsp;</td>
+            <td class="m-help">number of mixed effects components&nbsp;</td>
          </tr>
          <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.verbose')">verbose</a></td>
-            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.ntasks')">ntasks</a></td>
+            <td class="m-help">number of multitask components&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.nweights')">nweights</a></td>
+            <td class="m-help">number of weights for gaussian quadrature&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.precbias')">precbias</a></td>
+            <td class="m-help">scale of the bias term (bias term will be appended to the model)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.prior')">prior</a></td>
+            <td class="m-help">precision matrix of the auxiliary variables&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.blogreg.restart')">restart</a></td>
-            <td class="m-help">  when false, starts at the previously learned parameters &nbsp;</td>
+            <td class="m-help">when false, starts at the previously learned parameters &nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.scale')">scale</a></td>
+            <td class="m-help">parameter; applied when prior is unspecified and in&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.taskcoupling')">taskcoupling</a></td>
+            <td class="m-help">strong task coupling by default&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.temperature')">temperature</a></td>
+            <td class="m-help">forces MAP like behaviour for t-&gt;0&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.tolerance')">tolerance</a></td>
+            <td class="m-help">convergence criterion&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.verbose')">verbose</a></td>
+            <td class="m-help">whether or not to generate diagnostic output&nbsp;</td>
          </tr>
       </table>
       <!--Methods-->
@@ -265,20 +265,12 @@
       </div>
       <table class="summary-list">
          <tr class="summary-item">
-            <td class="attributes">
+            <td class="attributes">protected 
                &nbsp;
                
             </td>
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.transform_data')">transform_data</a></td>
-            <td class="m-help">  recreate dataset and design matrix&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="attributes">
-               &nbsp;
-               
-            </td>
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.sample')">sample</a></td>
-            <td class="m-help">  This function samples from the prior and creates M vectors for&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.create_prior')">create_prior</a></td>
+            <td class="m-help">&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="attributes">
@@ -286,7 +278,23 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.blogreg.model')">model</a></td>
-            <td class="m-help">  MODEL returns the following parameters:&nbsp;</td>
+            <td class="m-help">returns the following parameters:&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.sample')">sample</a></td>
+            <td class="m-help">This function samples from the prior and creates M vectors for&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">protected 
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.scale_prior')">scale_prior</a></td>
+            <td class="m-help">scales a prior precision matrix&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="attributes">
@@ -302,15 +310,15 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.blogreg.train')">train</a></td>
-            <td class="m-help">  multiple outputs&nbsp;</td>
+            <td class="m-help">multiple outputs&nbsp;</td>
          </tr>
          <tr class="summary-item">
-            <td class="attributes">protected 
+            <td class="attributes">
                &nbsp;
                
             </td>
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.scale_prior')">scale_prior</a></td>
-            <td class="m-help">&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.blogreg.transform_data')">transform_data</a></td>
+            <td class="m-help">recreate dataset and design matrix&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="attributes">protected 
@@ -318,15 +326,7 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.blogreg.transform_prior')">transform_prior</a></td>
-            <td class="m-help">&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="attributes">protected 
-               &nbsp;
-               
-            </td>
-            <td class="name"><a href="matlab:helpwin('dml.blogreg.create_prior')">create_prior</a></td>
-            <td class="m-help">&nbsp;</td>
+            <td class="m-help">redefine prior for multitask and/or mixed effects models&nbsp;</td>
          </tr>
       </table>
    </body>

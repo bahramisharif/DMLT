@@ -1,5 +1,5 @@
 classdef standardizer < dml.method
-% STANDARDIZER class
+% STANDARDIZER takes zscores.
 % 
 %   DESCRIPTION
 %   Takes zscores such that data has mean 0 and standard deviation 1
@@ -50,6 +50,8 @@ classdef standardizer < dml.method
       Y = bsxfun(@minus,X,obj.mu);
       Y = bsxfun(@rdivide,Y,obj.sigma);
       
+      if any(isnan(Y(:))), warning('NaNs encountered'); end
+      
     end
     
     function X = invert(obj,Y)
@@ -57,6 +59,8 @@ classdef standardizer < dml.method
     
       X = bsxfun(@times,Y,obj.sigma);
       X = bsxfun(@plus,X,obj.mu);
+   
+      if any(isnan(X(:))), warning('NaNs encountered'); end
       
     end
     

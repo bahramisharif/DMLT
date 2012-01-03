@@ -16,8 +16,8 @@
 % classification problem and generate some artificial training data and
 % test data:
 rand('seed',1);
-X1 = rand(50,100); X1(26:end,1:50) = 0.25+rand(25,50);
-X2 = rand(50,100); X2(26:end,1:50) = 0.25+rand(25,50);
+X1 = rand(50,100); X1(26:end,1:50) = 0.15+rand(25,50);
+X2 = rand(50,100); X2(26:end,1:50) = 0.15+rand(25,50);
 Y1 = [ones(25,1); 2*ones(25,1)];
 Y2 = [ones(25,1); 2*ones(25,1)];
 
@@ -105,7 +105,7 @@ bar(s.divergence);
 % object. It takes a multivariate analysis object and a specification of
 % the data subsets and automates the procedure. The stats field is then used
 % to evaluate the results. For instance,
-X = rand(50,100); X(26:end,1:50) = 0.1+rand(25,50);
+X = rand(50,100); X(26:end,1:50) = 0.25+rand(25,50);
 Y = [ones(25,1); 2*ones(25,1)];
 m = dml.crossvalidator('mva',{dml.standardizer dml.naive},'stat','accuracy');
 m = m.train(X,Y);
@@ -148,7 +148,7 @@ m.statistic('accuracy')
 % In order to test whether the crossvalidation results are significant, we
 % can use permutation testing, where we compare the results under random
 % permutations of the output Y with the actual results:
-m = dml.permutation('cv',dml.crossvalidator('mva',{dml.standardizer dml.naive},'stat','accuracy'),'nperm',20,'verbose',true);
+m = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',{dml.standardizer dml.naive}),'nperm',20,'verbose',true);
 m = m.train(X,Y);
 p = m.statistic
 %%
@@ -157,6 +157,19 @@ p = m.statistic
 % we need many more permutations to get a reliable result. The verbose option, 
 % which is available for other objects as well, gives diagnostic output.
 
+%% Bootstrap testing
+% An important question is how stable the parameters are we estimate for
+% our models. This question can be answered using bootstrap testing. Here,
+% we resample data with replacement and verify how stable the parameter
+% estimates are. For example:
+m = dml.bootstrap('mva',{dml.standardizer dml.naive},'nboot',200);
+m = m.train(X,Y);
+[mu,se] = m.statistic;
+%%
+% gives the mean and standard error for all parameters which are returned
+% by a method's model function. For instance, for naive Bayes, we can plot
+% the divergences:
+errorbar(mu.divergence,se.divergence,'ko');
 %% Grid search
 % Methods may require the optimization of particular parameters. This can
 % be achieved using the dml.gridsearch object. The gridsearch object takes
@@ -170,7 +183,7 @@ p = m.statistic
 %
 % In this example we show the use of the gridsearch together with the
 % support vector machine:
-m = dml.gridsearch('cv',dml.crossvalidator('type','split','stat','accuracy','mva',dml.svm('restart',false)),'vars','C','vals',fliplr(logspace(-4,1,5)),'verbose',true);
+m = dml.gridsearch('validator',dml.crossvalidator('type','split','stat','accuracy','mva',dml.svm('restart',false)),'vars','C','vals',fliplr(logspace(-4,1,5)),'verbose',true);
 m = m.train(X,Y);
 
 %% Customization
@@ -182,7 +195,7 @@ m = m.train(X,Y);
 % in the following template:
 %
 %  classdef mymethod < dml.method
-%  % MYMETHOD short description
+%  % MYMETHOD short description (max 50 characters) ending with a period.
 %  % 
 %  % DESCRIPTION
 %  % full description

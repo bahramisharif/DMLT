@@ -1,15 +1,20 @@
 classdef permutation
-  % PERMUTATION permutation testing class
+  % PERMUTATION permutation testing class.
   %
   %   DESCRIPTION
   %   Performs a permutation test on a dataset given a particular
   %   crossvalidator object, a test statistic and a multivariate analysis.
-  
+  %
+  %   EXAMPLE
+  %   m = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',{dml.standardizer dml.naive}),'nperm',20,'verbose',true);
+  %   m = m.train(X,Y);
+  %   p = m.statistic
+  %
   % Copyright (c) 2011, Marcel van Gerven
   
   properties
     
-    cv % crossvalidator object
+    validator % crossvalidator object
     
     nperm = 100 % number of permutations
     
@@ -17,6 +22,8 @@ classdef permutation
     
     verbose = false; % whether or not to generate diagnostic output
     
+    stat = ''; % statistic used to compute performance
+        
   end
   
   methods
@@ -32,7 +39,7 @@ classdef permutation
         end
       end
       
-      if isempty(obj.cv), error('specify cross-validator'); end
+      if isempty(obj.validator), error('specify cross-validator'); end
       
     end
     
@@ -48,7 +55,7 @@ classdef permutation
       for i=1:obj.nperm
         
         % ensure random permutation
-        RandStream.setDefaultStream(RandStream('mt19937ar','seed',sum(100*clock)));
+        RandStream.setGlobalStream(RandStream('mt19937ar','seed',sum(100*clock)));
         
         % create permuted data
         if ndata == 1
@@ -56,7 +63,7 @@ classdef permutation
         else
           Z = cell(size(Y));
           for c=1:ndata
-            Z{c} = Y{c}(randperm(size(Y,1)),:);
+            Z{c} = Y{c}(randperm(size(Y{c},1)),:);
           end
         end
         
@@ -64,32 +71,42 @@ classdef permutation
           fprintf('testing permutation %d of %d: ',i,obj.nperm);
         end
         
-        tmp = obj.cv.train(X,Z);
-        obj.outcome(i) = tmp.statistic;
+        tmp = obj.validator.train(X,Z);
+        obj.outcome(i) = tmp.statistic(obj.stat);
         if obj.verbose
           fprintf('%.2f\n',obj.outcome(i));
         end
         
       end
-      obj.cv = obj.cv.train(X,Y);
-      obj.outcome(end) = obj.cv.statistic;
+      obj.validator = obj.validator.train(X,Y);
+      obj.outcome(end) = obj.validator.statistic(obj.stat);
       if obj.verbose
         fprintf('actual outcome: %.2f\n',obj.outcome(end));
       end
     end
     
     function p = statistic(obj)
-      % return permutation test statistic
+      % return permutation test statistic; 
       
+      % normalize outcomes
+      poc = obj.outcome;
+      poc = poc - min(poc);
+      poc = poc ./ max(poc);
+      
+      roc = poc(end); % real outcome
+      poc = poc(1:(end-1)); % predicted outcome
+      
+      % set resolution for test statistic
       T = 0:1e-4:1;
       
+      % build up the cumulative distribution function
       cdf = zeros(1,numel(T));
       for t=1:numel(T)
-        cdf(t) = mean(obj.outcome(1:(end-1)) <= T(t));
+        cdf(t) = mean(poc <= T(t));
       end
       
-      % find last value that is smaller than a
-      idx = find(obj.outcome(end) > T,1,'last');
+      % find last value that is smaller than real outcome
+      idx = find(roc > T,1,'last');
       
       % report its associated p-value
       p = 1 - cdf(idx);

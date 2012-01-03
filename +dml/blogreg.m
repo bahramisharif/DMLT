@@ -1,13 +1,14 @@
 classdef blogreg < dml.method
-  %BLOGREG Bayesian logistic regression with a multivariate Laplace prior which
-  %supports spatiotemporal interactions, multitask and mixed effects models
+  %BLOGREG Bayesian logistic regression.
   %
   %   DESCRIPTION
-  %   The scale property specifies the regularization. The bigger the scale,
-  %   the less the regression coefficients will be regularized towards zero.
-  %   If multiple scales are used then the optimal one will be selected based
-  %   on the log model evidence (recorded by the logp property).
-  %   Note: a bias term is added to the model and should not be included explicitly
+  %   Multivariate Laplace prior supports spatiotemporal interactions,
+  %   multitask and mixed effects models. The scale property specifies the
+  %   regularization. The bigger the scale, the less the regression
+  %   coefficients will be regularized towards zero. If multiple scales are
+  %   used then the optimal one will be selected based on the log model
+  %   evidence (recorded by the logp property). Note: a bias term is added
+  %   to the model and should not be included explicitly
   %
   %   REFERENCE
   %   van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a

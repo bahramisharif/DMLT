@@ -1,5 +1,5 @@
 classdef whiten < dml.method
-%WHITEN whitens the data
+%WHITEN whitens the data.
 %
 %  DESCRIPTION
 %  Whitening of data through a whitening matrix W. Input data will be 

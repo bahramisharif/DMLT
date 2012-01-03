@@ -20,7 +20,6 @@ function K = construct_prior(dims,strength,varargin)
   for i=1:2:length(varargin)
     opt.(varargin{i}) = varargin{i+1};
   end
-  %if ~isfield(opt,'lambda'), opt.bias = 0.01; end
   if ~isfield(opt,'circulant'), opt.circulant = zeros(1,length(dims)); end
 
   fprintf('building prior precision matrix\n');
@@ -128,16 +127,6 @@ function K = construct_prior(dims,strength,varargin)
   % make symmetric
   K = K + K';
   
-  %  this is also part of scaling
-  %  compute diagonal
-   
-%   for i=1:nfeatures
-%     K(i,i) = 1 - sum(K(i,:));
-%   end
   K(1:(nfeatures+1):numel(K)) = 1 - sum(K,2);
-
-    % should be done manually
-%   % bias term
-%   K(end,end) = opt.bias;
   
 end

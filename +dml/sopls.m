@@ -1,5 +1,5 @@
 classdef sopls < dml.method
-% SOPLS sparse orthonormalized partial least squares
+% SOPLS sparse orthonormalized partial least squares.
 %
 %   DESCRIPTION
 %

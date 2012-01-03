@@ -1,5 +1,5 @@
 classdef gridsearch < dml.method
-%GRIDSEARCH grid search method
+%GRIDSEARCH grid search method.
 %
 %   DESCRIPTION
 %   This method can be used to optimize certain parameters of a
@@ -15,7 +15,7 @@ classdef gridsearch < dml.method
 %   EXAMPLE:
 %   X = rand(10,20); Y = [1 1 1 1 1 2 2 2 2 2]';
 %   v = dml.enet.lambdapath(X,Y,'logistic',5,1e-2);
-%   m = dml.gridsearch('cv',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('type','logistic','restart',false)),'vars','L1','vals',v,'verbose',true);
+%   m = dml.gridsearch('validator',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('type','logistic','restart',false)),'vars','L1','vals',v,'verbose',true);
 %   m = m.train(X,Y);
 %   Z = m.test(X);
 
@@ -23,7 +23,7 @@ classdef gridsearch < dml.method
 
     properties
 
-      cv        % the used cross-validator
+      validator % the used cross-validator
       
       idx       % the index of the method in the mva that is to be optimized
       vars      % the variables to optimize
@@ -48,11 +48,11 @@ classdef gridsearch < dml.method
          
 	     obj = obj@dml.method(varargin{:});
 
-         assert(~isempty(obj.cv));
+         assert(~isempty(obj.validator));
          assert(~isempty(obj.vars));
          assert(~isempty(obj.vals));
          
-         obj.mva = obj.cv.mva;
+         obj.mva = obj.validator.mva;
          if ~isa(obj.mva,'dml.analysis')
           obj.mva = dml.analysis(obj.mva);
          end
@@ -67,7 +67,7 @@ classdef gridsearch < dml.method
          end
          
          if ~obj.retrain
-           assert(~obj.cv.compact); % we should remember trained objects
+           assert(~obj.validator.compact); % we should remember trained objects
          end
          
        end
@@ -133,7 +133,7 @@ classdef gridsearch < dml.method
            
          function train_sequential()
            
-           vld = obj.cv;
+           vld = obj.validator;
            
            obj.outcome = zeros(1,size(obj.configs,1));
            obj.models = cell(1,size(obj.configs,1));

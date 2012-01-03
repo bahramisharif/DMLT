@@ -1,5 +1,5 @@
 classdef csp < dml.method
-%CSP Common spatial pattern algorithm
+%CSP common spatial pattern algorithm.
 %
 %   DESCRIPTION
 %   Extracts and applies CSP filters.

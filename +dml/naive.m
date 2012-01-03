@@ -1,5 +1,5 @@
 classdef naive < dml.method
-% NAIVE gaussian naive Bayes classifier
+% NAIVE gaussian naive Bayes classifier.
 %
 %   DESCRIPTION
 %   Estimates discrete priors and class-conditional gaussian distributions 

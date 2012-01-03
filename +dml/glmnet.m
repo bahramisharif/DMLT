@@ -1,5 +1,5 @@
 classdef glmnet < dml.method
-% GLMNET efficient elastic net algorithm
+% GLMNET efficient elastic net algorithm.
 %
 %   DESCRIPTION
 %   Fast implementation of elastic net linear and logistic regression by
@@ -47,9 +47,9 @@ classdef glmnet < dml.method
     
     function obj = train(obj,X,Y)
       
-      % multiple datasets
-      if iscell(X) || iscell(Y)
-        obj = ft_mv_ndata('mvmethod',obj);
+      % handle multiple datasets
+      if iscell(X)
+        obj = dml.ndata('method',obj);
         obj = obj.train(X,Y);
         return;
       end

@@ -2,24 +2,31 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    
-      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
-      <title>M-File Help: dml.permutation</title>
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2011b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>MATLAB File Help: dml.permutation</title>
    </head>
    <body>
       <!--Single-page help-->
       <table border="0" cellspacing="0" width="100%">
          <tr class="subheader">
-            <td class="headertitle">M-File Help: dml.permutation</td>
+            <td class="headertitle">MATLAB File Help: dml.permutation</td>
+            <td class="subheader-left"><a href="matlab:edit dml.permutation">View code for dml.permutation</a></td>
             <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
          </tr>
       </table>
       <div class="title">dml.permutation</div>
-      <div class="helptext"><pre><!--helptext -->  PERMUTATION permutation testing class
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">permutation</span> permutation testing class.
  
     DESCRIPTION
     Performs a permutation test on a dataset given a particular
     crossvalidator object, a test statistic and a multivariate analysis.
-</pre></div><!--after help -->
+ 
+    EXAMPLE
+    m = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',{dml.standardizer dml.naive}),'nperm',20,'verbose',true);
+    m = m.train(X,Y);
+    p = m.statistic
+ 
+  Copyright (c) 2011, Marcel van Gerven</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">
@@ -38,7 +45,7 @@
       <table class="summary-list">
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.permutation.permutation')">permutation</a></td>
-            <td class="m-help">  parse options&nbsp;</td>
+            <td class="m-help">parse options&nbsp;</td>
          </tr>
       </table>
       <!--Properties-->
@@ -46,20 +53,24 @@
       </div>
       <table class="summary-list">
          <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.permutation.cv')">cv</a></td>
-            <td class="m-help">cv -  crossvalidator object&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.permutation.nperm')">nperm</a></td>
-            <td class="m-help">nperm -  number of permutations&nbsp;</td>
+            <td class="m-help">number of permutations&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.permutation.outcome')">outcome</a></td>
-            <td class="m-help">outcome -  outcome of the test statistic&nbsp;</td>
+            <td class="m-help">outcome of the test statistic&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.permutation.stat')">stat</a></td>
+            <td class="m-help">statistic used to compute performance&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.permutation.validator')">validator</a></td>
+            <td class="m-help">crossvalidator object&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.permutation.verbose')">verbose</a></td>
-            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+            <td class="m-help">whether or not to generate diagnostic output&nbsp;</td>
          </tr>
       </table>
       <!--Methods-->
@@ -72,7 +83,7 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.permutation.statistic')">statistic</a></td>
-            <td class="m-help">  return permutation test statistic&nbsp;</td>
+            <td class="m-help">return permutation test statistic; &nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="attributes">

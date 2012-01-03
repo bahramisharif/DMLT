@@ -1,5 +1,5 @@
 classdef svm < dml.method
-% SVM support vector machine
+% SVM support vector machine.
 %
 % DESCRIPTION
 % Linear support vector machine classifier

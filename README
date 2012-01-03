@@ -1,8 +1,8 @@
-MLN is a Machine Learning for Neuroscience toolbox written in Matlab. This toolbox integrates new methods developed  at the Donders Institute for Brain, Cognition and Behaviour. Installation of this toolbox is done by adding it to the Matlab search path. Documentation will then be available in the Matlab help facility.
+DMLT is a Machine Learning toolbox written in Matlab. This toolbox integrates new methods developed  at the Donders Institute for Brain, Cognition and Behaviour. Installation of this toolbox is done by adding it to the Matlab search path. Documentation will then be available in the Matlab help facility. Documentation can be made up to date by calling install.m.
 
 This code requires at least Matlab distribution 7.6.0.324 (R2008a)
  
-Copyrights (C) 2008
+Copyrights (C) 2012
 Marcel van Gerven
 Donders Institute for Brain, Cognition and Behaviour (http://donders.ru.nl/)
 Radboud University Nijmegen, The Netherlands

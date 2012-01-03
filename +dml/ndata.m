@@ -1,6 +1,5 @@
 classdef ndata < dml.method
-% NDATA wrapper class to make dml.methods handle multiple datasets
-% i.e., when iscell(X) or iscell(Y) is true.
+% NDATA wrapper class to make methods handle multiple datasets.e
 %
 % Copyright (c) 2010, Marcel van Gerven
     

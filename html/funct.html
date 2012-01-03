@@ -1,18 +1,12 @@
 
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-   <head>
+<html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   
-      <!--
-This HTML is auto-generated from an M-file.
-To make changes, update the M-file and republish this document.
-      -->
-      <title>Functions</title>
-      <meta name="generator" content="MATLAB 7.7">
-      <meta name="date" content="2011-12-17">
-      <meta name="m-file" content="funct"><style type="text/css">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>DML Toolbox Functions</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-01-02"><meta name="DC.source" content="funct.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -68,98 +62,32 @@ p.footer {
   color: gray;
 }
 
-  </style></head>
-   <body>
-      <div class="content">
-         <h1>Functions</h1>
-         <!--introduction-->
-         <p>DML Toolbox</p>
-         <!--/introduction-->
-         <h2>Contents</h2>
-         <div>
-            <ul>
-               <li><a href="#1">High-level Functionality</a></li>
-               <li><a href="#2">Preprocessing</a></li>
-               <li><a href="#3">Decoding</a></li>
-            </ul>
-         </div>
-         <h2>High-level Functionality<a name="1"></a></h2>
-         <div>
-            <ul>
-               <li><a href="analysis.html"><tt>dml.analysis</tt></a> - multivariate analysis
-               </li>
-               <li><a href="crossvalidator.html"><tt>dml.crossvalidator</tt></a> - crossvalidation
-               </li>
-               <li><a href="statistic.html"><tt>dml.statistic</tt></a> - test statistics
-               </li>
-               <li><a href="permutation.html"><tt>dml.permutation</tt></a> - permutation testing
-               </li>
-               <li><a href="gridsearch.html"><tt>dml.gridsearch</tt></a> - gridsearch
-               </li>
-            </ul>
-         </div>
-         <h2>Preprocessing<a name="2"></a></h2>
-         <div>
-            <ul>
-               <li><a href="standardizer.html"><tt>dml.standardizer</tt></a> - standardization of data
-               </li>
-               <li><a href="whiten.html"><tt>dml.whiten</tt></a> - whitening
-               </li>
-               <li><a href="csp.html"><tt>dml.csp</tt></a> - common spatial pattern
-               </li>
-            </ul>
-         </div>
-         <h2>Decoding<a name="3"></a></h2>
-         <div>
-            <ul>
-               <li><a href="naive.html"><tt>dml.naive</tt></a> - Gaussian naive Bayes
-               </li>
-               <li><a href="svm.html"><tt>dml.svm</tt></a> - support vector machine
-               </li>
-               <li><a href="enet.html"><tt>dml.enet</tt></a> - native version of elastic net regression
-               </li>
-               <li><a href="glmnet.html"><tt>dml.glmnet</tt></a> - compiled version of elastic net regression
-               </li>
-               <li><a href="blogreg.html"><tt>dml.blogreg</tt></a> - Bayesian logistic regression
-               </li>
-               <li><a href="sopls.html"><tt>dml.sopls</tt></a> - Sparse orthonormalized partial least squares
-               </li>
-               <li><a href="searchlight.html"><tt>dml.searchlight</tt></a> - searchlight method
-               </li>
-            </ul>
-         </div>
-         <p class="footer"><br>
-            Published with MATLAB&reg; 7.7<br></p>
-      </div>
-      <!--
+  </style></head><body><div class="content"><h1>DML Toolbox Functions</h1><div><ul><li><a href="analysis.html"><tt>dml.analysis</tt></a> - multivariate analysis class</li><li><a href="blogreg.html"><tt>dml.blogreg</tt></a> - Bayesian logistic regression</li><li><a href="cda.html"><tt>dml.cda</tt></a> - complex discriminant analysis</li><li><a href="circreg.html"><tt>dml.circreg</tt></a> - circular regression method</li><li><a href="crossvalidator.html"><tt>dml.crossvalidator</tt></a> - crossvalidation class</li><li><a href="csp.html"><tt>dml.csp</tt></a> - common spatial pattern algorithm</li><li><a href="enet.html"><tt>dml.enet</tt></a> - native implementation of elastic net algorithm</li><li><a href="glmnet.html"><tt>dml.glmnet</tt></a> - efficient elastic net algorithm</li><li><a href="gridsearch.html"><tt>dml.gridsearch</tt></a> - grid search method</li><li><a href="method.html"><tt>dml.method</tt></a> - abstract class for multivariate methods</li><li><a href="naive.html"><tt>dml.naive</tt></a> - gaussian naive Bayes classifier</li><li><a href="ndata.html"><tt>dml.ndata</tt></a> - wrapper class to make methods handle multiple datas</li><li><a href="permutation.html"><tt>dml.permutation</tt></a> - permutation testing class</li><li><a href="prior.html"><tt>dml.prior</tt></a> - used to created smoothing and shrinkage priors</li><li><a href="searchlight.html"><tt>dml.searchlight</tt></a> - searchlight analysis</li><li><a href="slda.html"><tt>dml.slda</tt></a> - shrinkage linear discriminant analysis</li><li><a href="sopls.html"><tt>dml.sopls</tt></a> - sparse orthonormalized partial least squares</li><li><a href="standardizer.html"><tt>dml.standardizer</tt></a> - takes zscores</li><li><a href="statistic.html"><tt>dml.statistic</tt></a> - test statistics</li><li><a href="svm.html"><tt>dml.svm</tt></a> - support vector machine</li><li><a href="whiten.html"><tt>dml.whiten</tt></a> - whitens the data</li></ul></div><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
-%% Functions
-% DML Toolbox
+%% DML Toolbox Functions
 %
-%% High-level Functionality
-% * <analysis.html |dml.analysis|> - multivariate analysis
-% * <crossvalidator.html |dml.crossvalidator|> - crossvalidation
-% * <statistic.html |dml.statistic|> - test statistics
-% * <permutation.html |dml.permutation|> - permutation testing
-% * <gridsearch.html |dml.gridsearch|> - gridsearch
-
-%% Preprocessing
-% * <standardizer.html |dml.standardizer|> - standardization of data
-% * <whiten.html |dml.whiten|> - whitening
-% * <csp.html |dml.csp|> - common spatial pattern
-
-%% Decoding 
-% * <naive.html |dml.naive|> - Gaussian naive Bayes
-% * <svm.html |dml.svm|> - support vector machine
-% * <enet.html |dml.enet|> - native version of elastic net regression
-% * <glmnet.html |dml.glmnet|> - compiled version of elastic net regression
+% * <analysis.html |dml.analysis|> - multivariate analysis class
 % * <blogreg.html |dml.blogreg|> - Bayesian logistic regression
-% * <sopls.html |dml.sopls|> - Sparse orthonormalized partial least squares
-% * <searchlight.html |dml.searchlight|> - searchlight method
-
-
+% * <cda.html |dml.cda|> - complex discriminant analysis
+% * <circreg.html |dml.circreg|> - circular regression method
+% * <crossvalidator.html |dml.crossvalidator|> - crossvalidation class
+% * <csp.html |dml.csp|> - common spatial pattern algorithm
+% * <enet.html |dml.enet|> - native implementation of elastic net algorithm
+% * <glmnet.html |dml.glmnet|> - efficient elastic net algorithm
+% * <gridsearch.html |dml.gridsearch|> - grid search method
+% * <method.html |dml.method|> - abstract class for multivariate methods
+% * <naive.html |dml.naive|> - gaussian naive Bayes classifier
+% * <ndata.html |dml.ndata|> - wrapper class to make methods handle multiple datas
+% * <permutation.html |dml.permutation|> - permutation testing class
+% * <prior.html |dml.prior|> - used to created smoothing and shrinkage priors
+% * <searchlight.html |dml.searchlight|> - searchlight analysis
+% * <slda.html |dml.slda|> - shrinkage linear discriminant analysis
+% * <sopls.html |dml.sopls|> - sparse orthonormalized partial least squares
+% * <standardizer.html |dml.standardizer|> - takes zscores
+% * <statistic.html |dml.statistic|> - test statistics
+% * <svm.html |dml.svm|> - support vector machine
+% * <whiten.html |dml.whiten|> - whitens the data
 
 ##### SOURCE END #####
--->
-   </body>
-</html>
+--></body></html>

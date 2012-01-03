@@ -2,29 +2,29 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    
-      <link rel="stylesheet" href="file:////Applications/MATLAB_R2008b.app/toolbox/matlab/helptools/private/helpwin.css">
-      <title>M-File Help: dml.standardizer</title>
+      <link rel="stylesheet" href="file:////Applications/MATLAB_R2011b.app/toolbox/matlab/helptools/private/helpwin.css">
+      <title>MATLAB File Help: dml.standardizer</title>
    </head>
    <body>
       <!--Single-page help-->
       <table border="0" cellspacing="0" width="100%">
          <tr class="subheader">
-            <td class="headertitle">M-File Help: dml.standardizer</td>
+            <td class="headertitle">MATLAB File Help: dml.standardizer</td>
+            <td class="subheader-left"><a href="matlab:edit dml.standardizer">View code for dml.standardizer</a></td>
             <td class="subheader-right"><a href="matlab:helpwin">Default Topics</a></td>
          </tr>
       </table>
       <div class="title">dml.standardizer</div>
-      <div class="helptext"><pre><!--helptext -->  STANDARDIZER class
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">standardizer</span> takes zscores.
   
     DESCRIPTION
     Takes zscores such that data has mean 0 and standard deviation 1
    
     EXAMPLE
     X = rand(10,3);
-    m = <span class="helptopic">dml.standardizer</span>;
+    m = dml.standardizer;
     m = m.train(X);
-    Z = m.test(X);
-</pre></div><!--after help -->
+    Z = m.test(X);</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">
@@ -47,7 +47,7 @@
       <table class="summary-list">
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.standardizer')">standardizer</a></td>
-            <td class="m-help">  STANDARDIZER class&nbsp;</td>
+            <td class="m-help">takes zscores.&nbsp;</td>
          </tr>
       </table>
       <!--Properties-->
@@ -56,19 +56,19 @@
       <table class="summary-list">
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.mu')">mu</a></td>
-            <td class="m-help">mu -  mean&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.standardizer.sigma')">sigma</a></td>
-            <td class="m-help">sigma -  standard deviation&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.standardizer.verbose')">verbose</a></td>
-            <td class="m-help">verbose -  whether or not to generate diagnostic output&nbsp;</td>
+            <td class="m-help">mean&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.restart')">restart</a></td>
-            <td class="m-help">  when false, starts at the previously learned parameters &nbsp;</td>
+            <td class="m-help">when false, starts at the previously learned parameters &nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.standardizer.sigma')">sigma</a></td>
+            <td class="m-help">standard deviation&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.standardizer.verbose')">verbose</a></td>
+            <td class="m-help">whether or not to generate diagnostic output&nbsp;</td>
          </tr>
       </table>
       <!--Methods-->
@@ -81,7 +81,15 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.standardizer.invert')">invert</a></td>
-            <td class="m-help">  INVERT inverts the standardization&nbsp;</td>
+            <td class="m-help">inverts the standardization&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
+            <td class="attributes">
+               &nbsp;
+               
+            </td>
+            <td class="name"><a href="matlab:helpwin('dml.standardizer.model')">model</a></td>
+            <td class="m-help">this method does not return a model&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="attributes">
@@ -97,15 +105,7 @@
                
             </td>
             <td class="name"><a href="matlab:helpwin('dml.standardizer.train')">train</a></td>
-            <td class="m-help">  handle multiple datasets&nbsp;</td>
-         </tr>
-         <tr class="summary-item">
-            <td class="attributes">
-               &nbsp;
-               
-            </td>
-            <td class="name"><a href="matlab:helpwin('dml.standardizer.model')">model</a></td>
-            <td class="m-help">  this method does not return a model&nbsp;</td>
+            <td class="m-help">handle multiple datasets&nbsp;</td>
          </tr>
       </table>
    </body>

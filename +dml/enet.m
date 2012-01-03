@@ -1,5 +1,5 @@
 classdef enet < dml.method
-% ENET native implementation of elastic net algorithm
+% ENET native implementation of elastic net algorithm.
 %
 %   DESCRIPTION
 %   Elastic net linear and logistic regression
