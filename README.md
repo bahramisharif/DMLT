@@ -20,6 +20,12 @@ DMLT documentation is added automatically to the Matlab help facility when addin
 
 assuming you start your Matlab session in the DMLT root folder.
 
+# Documentation
+
+Documentation is available through the Matlab help facility but can also be consulted below:
+
+[Guide](https://github.com/DMLT/html/guide.html)
+
 # Developers
 
 Marcel van Gerven (m.vangerven@donders.ru.nl), Ali Bahramisharif (ali@cs.ru.nl), Jason Farquhar (j.farquhar@donders.ru.nl), Tom Heskes (tomh@cs.ru.nl)
