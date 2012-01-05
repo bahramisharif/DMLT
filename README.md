@@ -22,7 +22,7 @@ assuming you start your Matlab session in the DMLT root folder.
 
 # Documentation
 
-Documentation is available through the Matlab help facility but can also be consulted [here](http://marcelge.github.com/DMLT)
+Documentation is available through the Matlab help facility but can also be consulted [here](http://marcelge.github.com/DMLT).
 
 # Developers
 
