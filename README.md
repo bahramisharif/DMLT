@@ -24,7 +24,7 @@ assuming you start your Matlab session in the DMLT root folder.
 
 Documentation is available through the Matlab help facility but can also be consulted below:
 
-[Guide](https://github.com/DMLT/html/guide.html)
+[Guide](https://github.com/DMLT/DMLT/html/guide.html)
 
 # Developers
 
