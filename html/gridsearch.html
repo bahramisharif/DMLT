@@ -15,7 +15,7 @@
          </tr>
       </table>
       <div class="title">dml.gridsearch</div>
-      <div class="helptext"><pre><!--helptext --> <span class="helptopic">gridsearch</span> grid search method.
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">gridsearch</span> grid search method.
  
     DESCRIPTION
     This method can be used to optimize certain parameters of a
@@ -33,7 +33,10 @@
     v = dml.enet.lambdapath(X,Y,'logistic',5,1e-2);
     m = dml.gridsearch('validator',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('type','logistic','restart',false)),'vars','L1','vals',v,'verbose',true);
     m = m.train(X,Y);
-    Z = m.test(X);</pre></div><!--after help -->
+    Z = m.test(X);
+ 
+    DEVELOPER
+    Marcel van Gerven (m.vangerven@donders.ru.nl)</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">

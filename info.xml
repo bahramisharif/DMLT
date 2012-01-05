@@ -9,7 +9,7 @@
     <!-- (Required) element; matlabrelease content is not currently used -->
     <matlabrelease>2011b</matlabrelease>
     <!-- (Required) The name element appears in the Contents pane -->
-    <name>Donders Machine Learning Toolbox</name>
+    <name>Donders Machine Learning</name>
     <!-- (Required) The type elementidentifies your package; pick one: -->
     <!-- matlab, toolbox, simulink, blockset, links_targets  -->
     <type>toolbox</type>

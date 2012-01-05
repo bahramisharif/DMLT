@@ -1,7 +1,9 @@
 classdef ndata < dml.method
-% NDATA wrapper class to make methods handle multiple datasets.e
+% NDATA wrapper class to make methods handle multiple datasets.
 %
-% Copyright (c) 2010, Marcel van Gerven
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+
     
   properties
     

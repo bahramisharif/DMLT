@@ -4,8 +4,10 @@ classdef method
 %   DESCRIPTION
 %   The method class should not be called directly but forms the basis for 
 %   all classes in the methods package
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
-% Copyright (c) 2011, Marcel van Gerven
 
 
   properties

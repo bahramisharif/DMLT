@@ -200,11 +200,18 @@ m = m.train(X,Y);
 %  % DESCRIPTION
 %  % full description
 %  % 
+%  % EXAMPLE (recommended)
+%  %
+%  % NOTE (optional)
+%  %
 %  % REFERENCE (optional)
 %  %
-%  % EXAMPLE (recommended)
-%
-%  % Copyright statement
+%  % When using this method please refer to the following:
+%  % 
+%  % Great paper (2012)
+%  %
+%  % DEVELOPER
+%  % Marcel van Gerven (m.vangerven@donders.ru.nl)
 %
 %   properties
 %

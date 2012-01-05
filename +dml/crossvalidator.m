@@ -11,9 +11,10 @@ classdef crossvalidator
 %   m = dml.crossvalidator('mva',dml.svm)
 %   m = m.train(X,Y);
 %   m.statistic('accuracy')
-
-% Copyright (c) 2011, Marcel van Gerven
-
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+  
     properties
      
       mva % multivariate analysis

@@ -69,7 +69,10 @@
     indims = [10 10 10];
     p = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',dml.svm),'nperm',10,'verbose',true);
     m = dml.searchlight('step',3,'radius',2,'indims',indims,'verbose',true,'validator',p);
-    m = m.train(X,Y); r = m.model;</pre></div><!--after help -->
+    m = m.train(X,Y); r = m.model;
+ 
+    DEVELOPER
+    Marcel van Gerven (m.vangerven@donders.ru.nl)</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">

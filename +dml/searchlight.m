@@ -54,9 +54,9 @@ classdef searchlight < dml.method
 %   p = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',dml.svm),'nperm',10,'verbose',true);
 %   m = dml.searchlight('step',3,'radius',2,'indims',indims,'verbose',true,'validator',p);
 %   m = m.train(X,Y); r = m.model;
-%  
-
-% Copyright (c) 2010, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   properties
   

@@ -10,8 +10,10 @@ classdef whiten < dml.method
 %   m = dml.whiten('indim',[2 100],'tdim',1);
 %   m = m.train(X);
 %   Z = m.test(X);
-
-% Copyright (c) 2011, Marcel van Gerven, Jason Farquhar
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+%   Jason Farquhar (j.farquhar@donders.ru.nl)
    
   properties
     

@@ -21,9 +21,6 @@ classdef sopls < dml.method
 %   during testing then the restricted number of components will be used
 %   (only in case of sparse partial least squares!)
 %
-%   REFERENCES
-%
-%
 %   EXAMPLE
 %   
 %   load data;
@@ -43,8 +40,14 @@ classdef sopls < dml.method
 %   figure
 %   for j=1:10, subplot(2,5,j); imagesc(reshape(I(40+j,:),[16 16])); colormap(gray); axis off, end
 %
-
-% Copyright (c) 2010, Marcel van Gerven, Tom Heskes
+%   REFERENCE
+%  
+%   When using this method please refer to the following:
+%
+%   van Gerven MAJ, Heskes T. Sparse Orthonormalized Partial Least Squares. In: BNAIC. 2010. 
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl), Tom Heskes (tomh@cs.ru.nl)
 
 
   properties

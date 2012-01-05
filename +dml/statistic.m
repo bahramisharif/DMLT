@@ -24,8 +24,9 @@ function s = statistic(stat,D,P)
 %   EXAMPLE
 %   s = dml.statistic('accuracy',D,P)
 %   s = dml.statistic('-MAD',D,P)
-
-% Copyright (c) 2011, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   minus = stat(1) == '-';
   if minus, stat = stat(2:end); end

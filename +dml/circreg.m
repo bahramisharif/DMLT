@@ -1,19 +1,19 @@
 classdef circreg < dml.method
-%CIRCREG circular regression method.
+% CIRCREG circular regression method.
 %
 %   DESCRIPTION
 %   Circular regression using the Fisher and Lee model.
-% 
-%   EXAMPLE 
-%   
-%   % generate data using fixed mean mu and concentration kappa   
+%
+%   EXAMPLE
+%
+%   % generate data using fixed mean mu and concentration kappa
 %   X = randn(1000,3);
 %   c = dml.circreg('mu',0,'kappa',100);
 %   Y = c.sample(X);
 %   ix = (-pi:0.1:pi)';
 %   x = histc(Y,ix); x = x ./ sum(x);
 %   polar(ix,1+x);
-% 
+%
 %   % check estimation
 %   c = dml.circreg('mode','none','verbose',true);
 %   c = c.train([],Y);
@@ -39,7 +39,9 @@ classdef circreg < dml.method
 %   c = c.train(X,Y);
 %   disp([c.mu c.kappa c.gamma']);
 %
-%   Copyright (c) 2009, Ali Bahramisharif, Marcel van Gerven
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+%   Ali Bahramisharfi (ali@cs.ru.nl)
 
     properties        
         

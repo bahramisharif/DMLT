@@ -1,5 +1,5 @@
 classdef enet < dml.method
-% ENET native implementation of elastic net algorithm.
+%ENET native implementation of elastic net algorithm.
 %
 %   DESCRIPTION
 %   Elastic net linear and logistic regression
@@ -13,8 +13,9 @@ classdef enet < dml.method
 %   m = dml.enet
 %   m = m.train(X,Y);
 %   Z = m.test(X);
-
-% Copyright (c) 2011, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   properties
     

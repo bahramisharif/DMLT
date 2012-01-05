@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Introduction</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-01-03"><meta name="DC.source" content="guide.m"><style type="text/css">
+      --><title>Introduction</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-01-05"><meta name="DC.source" content="guide.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -140,26 +140,26 @@ ans =
 </pre><h2>Permutation testing<a name="20"></a></h2><p>In order to test whether the crossvalidation results are significant, we can use permutation testing, where we compare the results under random permutations of the output Y with the actual results:</p><pre class="codeinput">m = dml.permutation(<span class="string">'stat'</span>,<span class="string">'accuracy'</span>,<span class="string">'validator'</span>,dml.crossvalidator(<span class="string">'mva'</span>,{dml.standardizer dml.naive}),<span class="string">'nperm'</span>,20,<span class="string">'verbose'</span>,true);
 m = m.train(X,Y);
 p = m.statistic
-</pre><pre class="codeoutput">testing permutation 1 of 20: 0.54
-testing permutation 2 of 20: 0.56
-testing permutation 3 of 20: 0.60
-testing permutation 4 of 20: 0.52
-testing permutation 5 of 20: 0.62
-testing permutation 6 of 20: 0.64
-testing permutation 7 of 20: 0.54
-testing permutation 8 of 20: 0.58
-testing permutation 9 of 20: 0.40
-testing permutation 10 of 20: 0.40
+</pre><pre class="codeoutput">testing permutation 1 of 20: 0.42
+testing permutation 2 of 20: 0.52
+testing permutation 3 of 20: 0.48
+testing permutation 4 of 20: 0.40
+testing permutation 5 of 20: 0.40
+testing permutation 6 of 20: 0.36
+testing permutation 7 of 20: 0.60
+testing permutation 8 of 20: 0.42
+testing permutation 9 of 20: 0.48
+testing permutation 10 of 20: 0.64
 testing permutation 11 of 20: 0.52
-testing permutation 12 of 20: 0.48
-testing permutation 13 of 20: 0.54
-testing permutation 14 of 20: 0.60
-testing permutation 15 of 20: 0.52
-testing permutation 16 of 20: 0.48
-testing permutation 17 of 20: 0.52
-testing permutation 18 of 20: 0.48
-testing permutation 19 of 20: 0.40
-testing permutation 20 of 20: 0.46
+testing permutation 12 of 20: 0.36
+testing permutation 13 of 20: 0.46
+testing permutation 14 of 20: 0.58
+testing permutation 15 of 20: 0.40
+testing permutation 16 of 20: 0.40
+testing permutation 17 of 20: 0.56
+testing permutation 18 of 20: 0.50
+testing permutation 19 of 20: 0.58
+testing permutation 20 of 20: 0.50
 actual outcome: 1.00
 
 p =
@@ -190,9 +190,18 @@ retraining optimum configuration dml.svm.C=10.000000 using all data
 % DESCRIPTION
 % full description
 %
+% EXAMPLE (recommended)
+%
+% NOTE (optional)
+%
 % REFERENCE (optional)
 %
-% EXAMPLE (recommended)</pre><pre>% Copyright statement</pre><pre> properties</pre><pre>  myproperty % description of property</pre><pre> end</pre><pre> methods</pre><pre>   function obj = mymethod(varargin)</pre><pre>     obj = obj@dml.method(varargin{:});</pre><pre>   end</pre><pre>   function obj = train(obj,X,Y)</pre><pre>     % return object trained on input data X and (optionally) output data Y</pre><pre>   end</pre><pre>   function Y = test(obj,X)</pre><pre>     % test the trained object on input data X and return output Y</pre><pre>   end</pre><pre>   function m = model(obj)
+% When using this method please refer to the following:
+%
+% Great paper (2012)
+%
+% DEVELOPER
+% Marcel van Gerven (m.vangerven@donders.ru.nl)</pre><pre> properties</pre><pre>  myproperty % description of property</pre><pre> end</pre><pre> methods</pre><pre>   function obj = mymethod(varargin)</pre><pre>     obj = obj@dml.method(varargin{:});</pre><pre>   end</pre><pre>   function obj = train(obj,X,Y)</pre><pre>     % return object trained on input data X and (optionally) output data Y</pre><pre>   end</pre><pre>   function Y = test(obj,X)</pre><pre>     % test the trained object on input data X and return output Y</pre><pre>   end</pre><pre>   function m = model(obj)
    % MODEL description of what this model returns</pre><pre>     % optional: returns parameters of this method</pre><pre>   end</pre><pre> end</pre><p>end</p><p class="footer"><br>
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -398,11 +407,18 @@ m = m.train(X,Y);
 %  % DESCRIPTION
 %  % full description
 %  % 
+%  % EXAMPLE (recommended)
+%  %
+%  % NOTE (optional)
+%  %
 %  % REFERENCE (optional)
 %  %
-%  % EXAMPLE (recommended)
-%
-%  % Copyright statement
+%  % When using this method please refer to the following:
+%  % 
+%  % Great paper (2012)
+%  %
+%  % DEVELOPER
+%  % Marcel van Gerven (m.vangerven@donders.ru.nl)
 %
 %   properties
 %

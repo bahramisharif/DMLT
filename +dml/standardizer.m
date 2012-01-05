@@ -9,8 +9,9 @@ classdef standardizer < dml.method
 %   m = dml.standardizer;
 %   m = m.train(X);
 %   Z = m.test(X);
-
-% Copyright (c) 2008, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   properties
     

@@ -21,12 +21,11 @@ classdef slda < dml.method
 %
 %   EXAMPLE
 %
-%
 %   NOTE
 %   The approach by Opgen-Rhein may also be of use (see covshrinkKPM)
-
-% Copyright (c) 2011, Marcel van Gerven
-
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   properties
     

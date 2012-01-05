@@ -31,7 +31,7 @@
                  image="HelpIcon.EXAMPLES">DML Examples
         </tocitem>
         <!-- Optional link or links to your or other Web sites -->
-        <tocitem target="http://www.socsci.ru.nl/~marcelge" 
+        <tocitem target="http://www.distrep.org" 
                  image="HelpIcon.RELEASE_NOTES">Developer Web Site
         </tocitem>
     </tocitem>

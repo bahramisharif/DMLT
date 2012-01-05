@@ -1,16 +1,17 @@
 classdef bootstrap
-  % BOOTSTRAP bootstrapping to determine parameter relevance.
-  %
-  %   DESCRIPTION
-  %   Performs a bootstrap test on a dataset given a particular
-  %   multivariate analysis. The stored results are the outputs of the
-  %   model function.
-  %
-  %   EXAMPLE
-  %   m = dml.bootstrap('mva',{dml.standardizer dml.naive},'nboot',100)
-  %   m = m.train(X,Y);
-  %
-  % Copyright (c) 2011, Marcel van Gerven
+% BOOTSTRAP bootstrapping to determine parameter relevance.
+%
+%   DESCRIPTION
+%   Performs a bootstrap test on a dataset given a particular
+%   multivariate analysis. The stored results are the outputs of the
+%   model function.
+%
+%   EXAMPLE
+%   m = dml.bootstrap('mva',{dml.standardizer dml.naive},'nboot',100)
+%   m = m.train(X,Y);
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
   
   properties
     
@@ -72,7 +73,7 @@ classdef bootstrap
         end
         
         if obj.verbose
-          fprintf('testing bootstrap sample %d of %d: ',i,obj.nboot);
+          fprintf('training bootstrap sample %d of %d\n',i,obj.nboot);
         end
         
         tmp = obj.mva.train(U,V);

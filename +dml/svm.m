@@ -9,8 +9,10 @@ classdef svm < dml.method
 %   m = dml.svm
 %   m = m.train(X,Y);
 %   Z = m.test(X);
-
-% Copyright (c) 2011, Marcel van Gerven, Jason Farquhar
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+%   Jason Farquhar (j.farquhar@donders.ru.nl)
 
   properties
     
@@ -50,6 +52,7 @@ classdef svm < dml.method
         
         if isempty(obj.C)
           obj.C = .1*(mean(diag(obj.Ktrain))-mean(obj.Ktrain(:)));
+          if obj.verbose, fprintf('using default C=%.2f\n',obj.C); end
         end
         
         obj.X = X;

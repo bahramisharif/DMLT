@@ -18,8 +18,10 @@ classdef naive < dml.method
 %   m = dml.naive
 %   m = m.train(X,Y);
 %   Z = m.test(X);
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
-% Copyright (c) 2010, Marcel van Gerven
 
   properties
     

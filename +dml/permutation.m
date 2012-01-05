@@ -1,16 +1,18 @@
 classdef permutation
-  % PERMUTATION permutation testing class.
-  %
-  %   DESCRIPTION
-  %   Performs a permutation test on a dataset given a particular
-  %   crossvalidator object, a test statistic and a multivariate analysis.
-  %
-  %   EXAMPLE
-  %   m = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',{dml.standardizer dml.naive}),'nperm',20,'verbose',true);
-  %   m = m.train(X,Y);
-  %   p = m.statistic
-  %
-  % Copyright (c) 2011, Marcel van Gerven
+% PERMUTATION permutation testing class.
+%
+%   DESCRIPTION
+%   Performs a permutation test on a dataset given a particular
+%   crossvalidator object, a test statistic and a multivariate analysis.
+%
+%   EXAMPLE
+%   m = dml.permutation('stat','accuracy','validator',dml.crossvalidator('mva',{dml.standardizer dml.naive}),'nperm',20,'verbose',true);
+%   m = m.train(X,Y);
+%   p = m.statistic
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+
   
   properties
     

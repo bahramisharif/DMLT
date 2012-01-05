@@ -23,10 +23,11 @@ function [K,C,R,a] = prior(dims,strength,varargin)
 %   correlation matrix R
 %   average correlation between neighbouring elements a
 %
-%   TO DO:
+%   NOTE
 %   allow neighbourhood structure
-
-% Copyright (c) 2011, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
     
   % parse options
   opt = [];

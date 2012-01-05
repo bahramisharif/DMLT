@@ -2,6 +2,7 @@
 %
 % * <analysis.html |dml.analysis|> - multivariate analysis class
 % * <blogreg.html |dml.blogreg|> - Bayesian logistic regression
+% * <bootstrap.html |dml.bootstrap|> - bootstrapping to determine parameter relevance
 % * <cda.html |dml.cda|> - complex discriminant analysis
 % * <circreg.html |dml.circreg|> - circular regression method
 % * <crossvalidator.html |dml.crossvalidator|> - crossvalidation class

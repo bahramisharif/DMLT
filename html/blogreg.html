@@ -15,7 +15,7 @@
          </tr>
       </table>
       <div class="title">dml.blogreg</div>
-      <div class="helptext"><pre><!--helptext --> <span class="helptopic">blogreg</span> Bayesian logistic regression.
+      <div class="helptext"><pre><!--helptext -->  <span class="helptopic">blogreg</span> Bayesian logistic regression.
  
     DESCRIPTION
     Multivariate Laplace prior supports spatiotemporal interactions,
@@ -25,13 +25,6 @@
     used then the optimal one will be selected based on the log model
     evidence (recorded by the logp property). Note: a bias term is added
     to the model and should not be included explicitly
- 
-    REFERENCE
-    van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a
-    sparsifying spatio-temporal prior. Neuroimage, 2010
- 
-    van Gerven &amp; Simanova. Concept classification with Bayesian multitask
-    learning, NAACL, 2010
  
     EXAMPLE
     In the following examples we work with the following input data:
@@ -133,7 +126,21 @@
  
     f = dml.blogreg('mixed',1,'multitask',1,'coupling',[100 100],'indims',[5 10],'mask',mask);
     f = f.train({ {X1m X2m} {X1m X2m} },{ {Y1 Y2} {Y1 Y2} });
-    f.test({{X1m X2m} {X1m X2m}})</pre></div><!--after help -->
+    f.test({{X1m X2m} {X1m X2m}})
+ 
+ 
+    REFERENCE
+ 
+    When using this method please refer to the following:
+ 
+    van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a
+    sparsifying spatio-temporal prior. Neuroimage, 2010
+ 
+    van Gerven &amp; Simanova. Concept classification with Bayesian multitask
+    learning, NAACL, 2010
+ 
+    DEVELOPER
+    Marcel van Gerven (m.vangerven@donders.ru.nl)</pre></div><!--after help -->
       <!--Class-->
       <div class="sectiontitle">Class Details</div>
       <table class="class-details">

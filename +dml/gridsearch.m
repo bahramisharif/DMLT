@@ -1,5 +1,5 @@
 classdef gridsearch < dml.method
-%GRIDSEARCH grid search method.
+% GRIDSEARCH grid search method.
 %
 %   DESCRIPTION
 %   This method can be used to optimize certain parameters of a
@@ -18,8 +18,10 @@ classdef gridsearch < dml.method
 %   m = dml.gridsearch('validator',dml.crossvalidator('type','split','stat','accuracy','mva',dml.enet('type','logistic','restart',false)),'vars','L1','vals',v,'verbose',true);
 %   m = m.train(X,Y);
 %   Z = m.test(X);
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
-%   Copyright (c) 2011, Marcel van Gerven
 
     properties
 

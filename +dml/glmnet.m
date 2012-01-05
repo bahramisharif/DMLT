@@ -19,8 +19,9 @@ classdef glmnet < dml.method
 %   m = dml.glmnet
 %   m = m.train(X,Y);
 %   Z = m.test(X);
-
-% Copyright (c) 2011, Marcel van Gerven
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
   properties
     

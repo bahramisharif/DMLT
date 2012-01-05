@@ -1,127 +1,131 @@
 classdef blogreg < dml.method
-  %BLOGREG Bayesian logistic regression.
-  %
-  %   DESCRIPTION
-  %   Multivariate Laplace prior supports spatiotemporal interactions,
-  %   multitask and mixed effects models. The scale property specifies the
-  %   regularization. The bigger the scale, the less the regression
-  %   coefficients will be regularized towards zero. If multiple scales are
-  %   used then the optimal one will be selected based on the log model
-  %   evidence (recorded by the logp property). Note: a bias term is added
-  %   to the model and should not be included explicitly
-  %
-  %   REFERENCE
-  %   van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a
-  %   sparsifying spatio-temporal prior. Neuroimage, 2010
-  %
-  %   van Gerven & Simanova. Concept classification with Bayesian multitask
-  %   learning, NAACL, 2010
-  %
-  %   EXAMPLE
-  %   In the following examples we work with the following input data:
-  %
-  %   rand('seed',1); randn('seed',1);
-  %   X1 = rand(10,5,10); X2 = X1 + 0.1*randn(size(X1));
-  %   Y1 = [1 1 1 1 1 2 2 2 2 2]'; Y2 = [1 1 1 1 2 1 2 2 2 2]';
-  %
-  %   Sometimes we assume the input data is just a region of interest that is
-  %   specified by some mask. E.g.
-  %
-  %   rand('seed',1); randn('seed',1);
-  %   mask = rand(5,10)>0.3;
-  %   X1m = rand(10,sum(mask(:))); X2m = X1m + 0.1*randn(size(X1m)); % create a subset of the data
-  %
-  %   creates data X1 (and X2) whose columns stand for those elements in the
-  %   mask that are equal to one. The representation for the output stays the
-  %   same.
-  %
-  %   In the examples use spy(f.prior) to look at the structure of the coupling
-  %   matrix
-  %
-  %   f = dml.blogreg('scale',logspace(-3,0,4));
-  %   f = f.train(X1,Y1);
-  %   f.test(X1)
-  %
-  %   Blogreg allows features to become coupled. This is done through the
-  %   coupling property, which specifies for each input dimension the coupling
-  %   strength in that dimension. E.g. coupling = [100 0 100] will strongly couple
-  %   neighboring features in the first and second input dimension. Also,
-  %   the input dimensions of the original data must be specified through the indims property.
-  %
-  %   f = dml.blogreg('indims',[5 10],'coupling',[100 100]);
-  %   f = f.train(X1,Y1);
-  %   f.test(X1)
-  %
-  %   In case the input data X is just a region of interest then we can use a
-  %   mask to indicate which features from the original volume of data are
-  %   represented by X. This still allows us to use the above approach to
-  %   specify the coupling.
-  %
-  %   f = dml.blogreg('indims',[5 10],'coupling',[100 100],'mask',mask);
-  %   f = f.train(X1m,Y1);
-  %   f.test(X1m)
-  %
-  %   In the following we discuss some more exotic uses of blogreg, which
-  %   is not required by the typical user.
-  %
-  %   Multitask learning (multitask = true) is implemented by augmenting the data matrix as
-  %   [ T1     0   ]
-  %   [ 0      T2  ]
-  %   etc and coupling the tasks through the taskcoupling property. Data X and Y must be given by a cell-array.
-  %
-  %   f = dml.blogreg('multitask',1);
-  %   f = f.train({X1 X2},{Y1 Y2});
-  %   f.test({X1 X2})
-  %
-  %   This can also be combined with coupling of the features themselves.
-  %
-  %   f = dml.blogreg('multitask',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
-  %   f = f.train({X1m X2m},{Y1 Y2});
-  %   f.test({X1m X2m})
-  %
-  %   Blogreg also supports a mixed effects model (mixed = true)
-  %   of the form
-  %   [ M1 M1 0 ]
-  %   [ M2 0 M2 ]
-  %   where the first column contains the "fixed effects" and the remaining
-  %   columns the "random effects". The basic idea is that if prediction is
-  %   supported by a fixed effect then it will be chosen since this incurs the
-  %   smallest penalty in terms of sparseness. Data should be given by a
-  %   cell-array.
-  %
-  %   f = dml.blogreg('mixed',1);
-  %   f = f.train({X1 X2}',{Y1 Y2}');
-  %   f.test({X1 X2})
-  %
-  %   This can also be combined with coupling of the features themselves.
-  %   If a coupling is specified then this coupling will only operate on the
-  %   fixed effects using mixed=1 and on both the fixed and random effects
-  %   using mixed=2.
-  %
-  %   f = dml.blogreg('mixed',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
-  %   f = f.train({X1m X2m}',{Y1 Y2}');
-  %   f.test({X1m X2m})
-  %
-  %   If the input data is a cell-array of cell-arrays then we assume a mixed
-  %   effects model for multiple tasks. The output will have the same
-  %   structure. E.g. model{i}{j,k} will be the j-th model for the k-th mixed
-  %   effect in the i-th subject. Note that k=1 is the fixed effect and k>1 are
-  %   the random effects.
-  %
-  %   f = dml.blogreg('mixed',1,'multitask',1);
-  %   f = f.train({{X1 X2} {X1 X2}},{{Y1 Y2} {Y1 Y2}});
-  %   f.test({{X1 X2} {X1 X2}})
-  %
-  %   If mixed = 1 then the only coupling  (spatial or multitask) will be for
-  %   the fixed effects part. For mixed = 2, also the random effects will be coupled.
-  %
-  %   f = dml.blogreg('mixed',1,'multitask',1,'coupling',[100 100],'indims',[5 10],'mask',mask);
-  %   f = f.train({ {X1m X2m} {X1m X2m} },{ {Y1 Y2} {Y1 Y2} });
-  %   f.test({{X1m X2m} {X1m X2m}})
-  %
-  
-  % Copyright (c) 2010, Marcel van Gerven
-  
+% BLOGREG Bayesian logistic regression.
+%
+%   DESCRIPTION
+%   Multivariate Laplace prior supports spatiotemporal interactions,
+%   multitask and mixed effects models. The scale property specifies the
+%   regularization. The bigger the scale, the less the regression
+%   coefficients will be regularized towards zero. If multiple scales are
+%   used then the optimal one will be selected based on the log model
+%   evidence (recorded by the logp property). Note: a bias term is added
+%   to the model and should not be included explicitly
+%
+%   EXAMPLE
+%   In the following examples we work with the following input data:
+%
+%   rand('seed',1); randn('seed',1);
+%   X1 = rand(10,5,10); X2 = X1 + 0.1*randn(size(X1));
+%   Y1 = [1 1 1 1 1 2 2 2 2 2]'; Y2 = [1 1 1 1 2 1 2 2 2 2]';
+%
+%   Sometimes we assume the input data is just a region of interest that is
+%   specified by some mask. E.g.
+%
+%   rand('seed',1); randn('seed',1);
+%   mask = rand(5,10)>0.3;
+%   X1m = rand(10,sum(mask(:))); X2m = X1m + 0.1*randn(size(X1m)); % create a subset of the data
+%
+%   creates data X1 (and X2) whose columns stand for those elements in the
+%   mask that are equal to one. The representation for the output stays the
+%   same.
+%
+%   In the examples use spy(f.prior) to look at the structure of the coupling
+%   matrix
+%
+%   f = dml.blogreg('scale',logspace(-3,0,4));
+%   f = f.train(X1,Y1);
+%   f.test(X1)
+%
+%   Blogreg allows features to become coupled. This is done through the
+%   coupling property, which specifies for each input dimension the coupling
+%   strength in that dimension. E.g. coupling = [100 0 100] will strongly couple
+%   neighboring features in the first and second input dimension. Also,
+%   the input dimensions of the original data must be specified through the indims property.
+%
+%   f = dml.blogreg('indims',[5 10],'coupling',[100 100]);
+%   f = f.train(X1,Y1);
+%   f.test(X1)
+%
+%   In case the input data X is just a region of interest then we can use a
+%   mask to indicate which features from the original volume of data are
+%   represented by X. This still allows us to use the above approach to
+%   specify the coupling.
+%
+%   f = dml.blogreg('indims',[5 10],'coupling',[100 100],'mask',mask);
+%   f = f.train(X1m,Y1);
+%   f.test(X1m)
+%
+%   In the following we discuss some more exotic uses of blogreg, which
+%   is not required by the typical user.
+%
+%   Multitask learning (multitask = true) is implemented by augmenting the data matrix as
+%   [ T1     0   ]
+%   [ 0      T2  ]
+%   etc and coupling the tasks through the taskcoupling property. Data X and Y must be given by a cell-array.
+%
+%   f = dml.blogreg('multitask',1);
+%   f = f.train({X1 X2},{Y1 Y2});
+%   f.test({X1 X2})
+%
+%   This can also be combined with coupling of the features themselves.
+%
+%   f = dml.blogreg('multitask',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
+%   f = f.train({X1m X2m},{Y1 Y2});
+%   f.test({X1m X2m})
+%
+%   Blogreg also supports a mixed effects model (mixed = true)
+%   of the form
+%   [ M1 M1 0 ]
+%   [ M2 0 M2 ]
+%   where the first column contains the "fixed effects" and the remaining
+%   columns the "random effects". The basic idea is that if prediction is
+%   supported by a fixed effect then it will be chosen since this incurs the
+%   smallest penalty in terms of sparseness. Data should be given by a
+%   cell-array.
+%
+%   f = dml.blogreg('mixed',1);
+%   f = f.train({X1 X2}',{Y1 Y2}');
+%   f.test({X1 X2})
+%
+%   This can also be combined with coupling of the features themselves.
+%   If a coupling is specified then this coupling will only operate on the
+%   fixed effects using mixed=1 and on both the fixed and random effects
+%   using mixed=2.
+%
+%   f = dml.blogreg('mixed',1,'indims',[5 10],'coupling',[100 100],'mask',mask);
+%   f = f.train({X1m X2m}',{Y1 Y2}');
+%   f.test({X1m X2m})
+%
+%   If the input data is a cell-array of cell-arrays then we assume a mixed
+%   effects model for multiple tasks. The output will have the same
+%   structure. E.g. model{i}{j,k} will be the j-th model for the k-th mixed
+%   effect in the i-th subject. Note that k=1 is the fixed effect and k>1 are
+%   the random effects.
+%
+%   f = dml.blogreg('mixed',1,'multitask',1);
+%   f = f.train({{X1 X2} {X1 X2}},{{Y1 Y2} {Y1 Y2}});
+%   f.test({{X1 X2} {X1 X2}})
+%
+%   If mixed = 1 then the only coupling  (spatial or multitask) will be for
+%   the fixed effects part. For mixed = 2, also the random effects will be coupled.
+%
+%   f = dml.blogreg('mixed',1,'multitask',1,'coupling',[100 100],'indims',[5 10],'mask',mask);
+%   f = f.train({ {X1m X2m} {X1m X2m} },{ {Y1 Y2} {Y1 Y2} });
+%   f.test({{X1m X2m} {X1m X2m}})
+%
+%
+%   REFERENCE
+%
+%   When using this method please refer to the following:
+%
+%   van Gerven et al. Efficient Bayesian multivariate fMRI analysis using a
+%   sparsifying spatio-temporal prior. Neuroimage, 2010
+%
+%   van Gerven & Simanova. Concept classification with Bayesian multitask
+%   learning, NAACL, 2010
+%
+%   DEVELOPER
+%   Marcel van Gerven (m.vangerven@donders.ru.nl)
+
   
   properties
     
