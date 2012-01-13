@@ -14,15 +14,13 @@ or, if you have write privileges, using:
 
 	git clone git@github.com:DMLT/DMLT.git
 
+# Documentation
+
 DMLT documentation is added automatically to the Matlab help facility when adding DMLT to the search path, e.g. using:
 
 	addpath(genpath(pwd));
 
-assuming you start your Matlab session in the DMLT root folder.
-
-# Documentation
-
-Documentation is available through the Matlab help facility but can also be consulted [here](http://marcelge.github.com/DMLT).
+assuming you start your Matlab session in the DMLT root folder. You may also browse html/guide.html for a quick guide on how to use DMLT.
 
 # Developers
 
