@@ -10,11 +10,11 @@ The most recent version of DMLT can be downloaded as a zipfile at https://github
 
 It is recommended though to use install DMLT by cloning the repository:
 
-	git clone git://github.com/DMLT/DMLT.git
+	git clone git://github.com/marcelge/DMLT.git
 
 or, if you have write privileges, using:
 
-	git clone git@github.com:DMLT/DMLT.git
+	git clone git@github.com:marcelge/DMLT.git
 
 The repository may then always be updated to the latest version by issuing the `git pull` command in the toolbox root folder.
 
