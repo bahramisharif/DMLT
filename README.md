@@ -10,11 +10,11 @@ The most recent version of DMLT can be downloaded as a zipfile at https://github
 
 It is recommended though to use install DMLT by cloning the repository:
 
-	`git clone git://github.com/DMLT/DMLT.git`
+	git clone git://github.com/DMLT/DMLT.git
 
 or, if you have write privileges, using:
 
-	`git clone git@github.com:DMLT/DMLT.git`
+	git clone git@github.com:DMLT/DMLT.git
 
 The repository may then always be updated to the latest version by issuing the `git pull` command in the toolbox root folder.
 
@@ -22,7 +22,7 @@ The repository may then always be updated to the latest version by issuing the `
 
 DMLT documentation is added automatically to the Matlab help facility when adding DMLT to the search path, e.g. using:
 
-	`addpath(genpath(pwd))`
+	addpath(genpath(pwd))
 
 assuming you start your Matlab session in the DMLT root folder. You may also browse html/guide.html for a quick guide on how to use DMLT.
 
