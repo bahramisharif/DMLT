@@ -1,4 +1,3 @@
-function update
 % UPDATE generates html help files for all classes and updates funct.html
 
 d = pwd;
