@@ -49,12 +49,16 @@
       </div>
       <table class="summary-list">
          <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.ndata.indims')">indims</a></td>
+            <td class="m-help">dimensions of the input data (excluding the trial dim and time dim in time series data)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.ndata.method')">method</a></td>
             <td class="m-help">the method which should be replicated &nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.ndata.restart')">restart</a></td>
-            <td class="m-help">when false, starts at the previously learned parameters &nbsp;</td>
+            <td class="m-help">when false, starts at the previously learned parameters; needed for online learning and grid search&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.ndata.verbose')">verbose</a></td>

@@ -60,8 +60,6 @@ classdef searchlight < dml.method
 
   properties
   
-    indims                % specification of input dimensions
-    
     radius = 3            % radius of the hypersphere in terms of array elements (diameter will be 1 + 2 * radius).
     step = 1              % stepsize in terms of array elements    
     

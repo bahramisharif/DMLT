@@ -75,6 +75,10 @@
             <td class="m-help">the index of the method in the mva that is to be optimized&nbsp;</td>
          </tr>
          <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.gridsearch.indims')">indims</a></td>
+            <td class="m-help">dimensions of the input data (excluding the trial dim and time dim in time series data)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.gridsearch.models')">models</a></td>
             <td class="m-help">all models learned for each of the parameter settings&nbsp;</td>
          </tr>
@@ -92,7 +96,7 @@
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.gridsearch.restart')">restart</a></td>
-            <td class="m-help">when false, starts at the previously learned parameters &nbsp;</td>
+            <td class="m-help">when false, starts at the previously learned parameters; needed for online learning and grid search&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.gridsearch.retrain')">retrain</a></td>

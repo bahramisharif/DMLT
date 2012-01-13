@@ -14,8 +14,9 @@ function s = statistic(stat,D,P)
 %   'binomial'    : binomial test gives p value for significant
 %                   classification; takes uneven class distributions into
 %                   account
-%   'MAD'        :  mean absolute deviation in circular statistics for angles 
-%                   in degrees.
+%   'MAD'         :  mean absolute deviation in degrees for angles specified
+%                   in radians
+%   'RMS'         : root-mean-square error
 %
 %   NOTE: notation '-x' with x one of the above is also allowed. This way
 %   error measures such as 'MAD' can be used as a performance measure by
@@ -85,6 +86,10 @@ function s = statistic(stat,D,P)
       
       psi = abs(D-P);
       s =360*atan2(mean(sin(psi)),mean(cos(psi)))/(2*pi);
+      
+    case 'RMS'
+      
+      s = sqrt(mean((D-P).^2));
       
     otherwise
       error('unknown statistic %s',stat);

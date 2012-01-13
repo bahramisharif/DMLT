@@ -132,10 +132,6 @@ classdef blogreg < dml.method
     % number of features; constant over tasks
     nfeatures
     
-    % input dimensions of the data; is used to generate prior
-    % constant over tasks
-    indims = [];
-    
     % prior precision matrix of the auxiliary variables
     prior
     
@@ -177,6 +173,7 @@ classdef blogreg < dml.method
     degenerate  = [];     % whether or not to run in degenerate mode
     
     % learned parameters
+    
     Gauss; % the EP estimate
     convergence; % whether or not EP converged
     logp; % approximate log model evidence

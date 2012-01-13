@@ -40,7 +40,7 @@ classdef naive < dml.method
     end
     
     function obj = train(obj,X,Y)
-  
+        
       % handle multiple datasets
       if iscell(X)
         obj = dml.ndata('method',obj);
@@ -72,7 +72,7 @@ classdef naive < dml.method
         obj.S(k,:) = obj.S(k,:) + nansum(X(Y == k,:),1);
         
         % estimate class-conditional sum of squares
-        mu    = obj.S ./ obj.n;
+        mu = obj.S ./ obj.n;
        
         if binit
         

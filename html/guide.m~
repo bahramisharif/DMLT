@@ -1,7 +1,7 @@
 %% Introduction
-% The Donders Machine Learning Toolbox (DML) is an extensible machine
-% learning toolbox written in Matlab, tailored to the analysis of neural
-% data. The DML package contains high-level functionality as well as
+% The Donders Machine Learning (DML) toolbox is an extensible
+% machine learning toolbox written in Matlab, tailored to the analysis of
+% neural data. The DML package contains high-level functionality as well as
 % implemented multivariate methods.
 
 %% Input and output 
@@ -125,25 +125,20 @@ Z = m.test({X2 X2});
 % a time series analysis method we will perform parameter estimation in a
 % linear dynamical system where our observations X are noisy versions of
 % the state variable Y:
-N = 2; K = 10; T = 1000; 
+N = 2; K = 5; T = 1000; 
 ncycles = 10; 
 Y = sin(ncycles * 2 * pi * (1:T) ./ T);
 Y = repmat(reshape(Y,[1 1 numel(Y)]),[N 1 1]);
-X = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T); 
-m = dml.lds('verbose',true,'maxiter',50);
+X = repmat(Y,[1 K 1]) + 0.1*randn(N,K,T); 
+m = dml.lds('verbose',true,'maxiter',10);
 m = m.train(X,nan(size(Y))); % hidden state estimation
-U = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T);
-Z = m.test(U);
+U = repmat(Y,[1 K 1]) + 0.1*randn(n,ncov,nsamples);
+Z = k.test(U);
 figure
-plot(squeeze(U(1,1,:))','b:');
-hold on;
 plot(squeeze(Y(1,:,:))','k');
+hold on;
 plot(squeeze(Z(1,:,:))','r');
-legend('noisy observation','real state','predicted state');
-%%
-% Note that we use nans to represent the state variable Y to indicate that
-% it is unobserved. The dynamics of the predicted state is really close to
-% the real state (necessarily sign and amplitude are not preserved).
+legend('real','predicted');
 %% Crossvalidation
 % In the previous, we use two separate datasets X1 and X2. Often, in an
 % analysis one would want to perform crossvalidation on one dataset X. That
@@ -216,7 +211,6 @@ m = m.train(X,Y);
 % gives the mean and standard error for all parameters which are returned
 % by a method's model function. For instance, for naive Bayes, we can plot
 % the divergences:
-figure;
 errorbar(mu.divergence,se.divergence,'ko');
 %% Grid search
 % Methods may require the optimization of particular parameters. This can

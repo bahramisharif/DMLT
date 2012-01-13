@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Introduction</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-01-05"><meta name="DC.source" content="guide.m"><style type="text/css">
+      --><title>Introduction</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-01-13"><meta name="DC.source" content="guide.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,12 +62,14 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>Introduction</h1><!--introduction--><p>The Donders Machine Learning (DML) toolbox is an extensible machine learning toolbox written in Matlab, tailored to the analysis of neural data. The DML package contains high-level functionality as well as implemented multivariate methods.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Data</a></li><li><a href="#2">Methods</a></li><li><a href="#13">Crossvalidation</a></li><li><a href="#20">Permutation testing</a></li><li><a href="#22">Bootstrap testing</a></li><li><a href="#24">Grid search</a></li><li><a href="#25">Customization</a></li></ul></div><h2>Data<a name="1"></a></h2><p>Input data takes the form of an nsamples x nvariables matrix. Output data takes the same form. For classification and regression, the output data is assumed to be an nsamples x 1 vector. For classification, this vector contains class labels 1,2,... For regressions this vector contains real values. Multiple outputs are handled by specialized methods. Missing data is indicated using NaN values. Multiple datasets can also be used as an argument, which is represented using a cell-array. More exotic uses will be covered in the examples section. For now lets focus on a classification problem and generate some artificial training data and test data:</p><pre class="codeinput">rand(<span class="string">'seed'</span>,1);
+  </style></head><body><div class="content"><h1>Introduction</h1><!--introduction--><p>The Donders Machine Learning Toolbox (DML) is an extensible machine learning toolbox written in Matlab, tailored to the analysis of neural data. The DML package contains high-level functionality as well as implemented multivariate methods.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Input and output</a></li><li><a href="#4">Methods</a></li><li><a href="#14">Multiple datasets</a></li><li><a href="#16">Multidimensional input</a></li><li><a href="#17">Time series analysis</a></li><li><a href="#19">Crossvalidation</a></li><li><a href="#26">Permutation testing</a></li><li><a href="#28">Bootstrap testing</a></li><li><a href="#30">Grid search</a></li><li><a href="#31">Customization</a></li></ul></div><h2>Input and output<a name="1"></a></h2><p>Input data takes the form of an N x K or N x K x T matrix with N the number of trials, K the number of variables and T the number of time samples. The latter representation is only used in case of time series analysis methods. Output data takes the form of N x M matrix. Missing data in the input or output is indicated using NaN values. Multiple outputs where Y is an N x K matrix are handled by specialized methods (see examples section). In case of classification and regression problems, the output data is assumed to be an N x 1 vector. For classification, this vector contains class labels 1,2,..., e.g.</p><pre class="codeinput">Y = [1 1 1 1 2 2 2 2]';
+</pre><p>For regression this vector contains real values, e.g.</p><pre class="codeinput">Y = [0.12 -1.23 2.4 1.1 -0.03]';
+</pre><p>For now lets focus on a classification problem and generate some artificial training data (X1,Y1) and test data (X2,Y2):</p><pre class="codeinput">rand(<span class="string">'seed'</span>,1); <span class="comment">% initialize random number generator</span>
 X1 = rand(50,100); X1(26:end,1:50) = 0.15+rand(25,50);
 X2 = rand(50,100); X2(26:end,1:50) = 0.15+rand(25,50);
 Y1 = [ones(25,1); 2*ones(25,1)];
 Y2 = [ones(25,1); 2*ones(25,1)];
-</pre><h2>Methods<a name="2"></a></h2><p>A method is a class which contains a train function and a test function. A method's train function can either learn a transformation of X itself (in which case Y is left unspecified) or learn a transformation from X to Y, as in supervised learning. A method's test function takes input data X and transforms this data to an output Y. For instance,</p><pre class="codeinput">m = dml.standardizer;
+</pre><h2>Methods<a name="4"></a></h2><p>A method is a class which contains a train function and a test function. All methods inherit from the abstract dml.method class. A method's train function can either learn a transformation of X itself in which case Y is left unspecified (as in supervised learning) or learn a transformation from X to Y, as in supervised learning. A method's test function takes input data X and transforms this data to an output Y. For instance,</p><pre class="codeinput">m = dml.standardizer;
 m = m.train(X1);
 Z = m.test(X1);
 </pre><p>gives a standardized representation Z of X with mean zero and unit standard deviation. In contrast,</p><pre class="codeinput">m = dml.naive;
@@ -83,12 +85,9 @@ ans =
     0.9974    0.0026
     0.9913    0.0087
 
-</pre><p>Multiple datasets are trained in the same way:</p><pre class="codeinput">m = dml.naive;
-m = m.train({X1 X1},{Y1 Y1});
-Z = m.test({X2 X2});
-</pre><p>This is of use when we want to process multiple datasets in parallel or combine the data as in multitask learning. This calling convention presupposes that a method knows how to deal with multiple datasets. This can be facilitated by using the dml.ndata class (see dml.naive for an example of its use).</p><p>While we may call methods directly, it is often convenient to encapsulate them in a multivariate analysis object. This object just provides storage for a sequence of multivariate analysis methods. For instance,</p><pre class="codeinput">m = dml.analysis({dml.standardizer dml.naive});
-m = m.train(X1,Y1);
-Z = m.test(X2);
+</pre><p>While we may call methods directly, it is often convenient to encapsulate them in a multivariate analysis object. This object just provides storage for a sequence of multivariate analysis methods. For instance,</p><pre class="codeinput">a = dml.analysis({dml.standardizer dml.naive});
+a = a.train(X1,Y1);
+Z = a.test(X2);
 </pre><p>creates a multivariate analysis object, trains a sequence of methods and the applies the trained object to data. In order to test the performance, we can for example compute the classification accuracy</p><pre class="codeinput">dml.statistic(<span class="string">'accuracy'</span>,Y2,Z)
 </pre><pre class="codeoutput">
 ans =
@@ -101,14 +100,83 @@ ans =
 
    2.1049e-09
 
-</pre><p>Low p values indicate that the outcome is significantly different from random classification. For a more stringent significance test, consult the permutation test section. For other statistics please consult dml.statistic.</p><p>Instead of examining decoding performance, one may want to examine the parameters of the decoding method in order to be able to identify which features play an important role in the decoding. For this, we can use the model function which is implemented by most methods. This function returns a struct with various diagnostic parameters.</p><pre class="codeinput">s = m.model;
+</pre><p>Low p values indicate that the outcome is significantly different from random classification. For a more stringent significance test, consult the permutation test section. For other statistics please consult dml.statistic.</p><p>Instead of examining decoding performance, one may want to examine the parameters of the decoding method in order to be able to identify which features play an important role in the decoding. For this, we can use the model function which is implemented by most methods. This function returns a struct with various diagnostic parameters.</p><pre class="codeinput">m = a.model;
 </pre><p>The meaning of these parameters depends on the used method and can be consulted by invoking the help:</p><pre class="codeinput">help <span class="string">dml.naive.model</span>;
 </pre><pre class="codeoutput">  returns
  
   m.divergence summed KL divergences between all pairs of class distributions
 
-</pre><p>Here, the field s.divergence contains an nvariables x 1 vector of KL divergences between the estimated Gaussians for each class. Hence, it gives a measure of separation. Let's plot them</p><pre class="codeinput">bar(s.divergence);
-</pre><img vspace="5" hspace="5" src="guide_01.png" alt=""> <p>The divergences indeed indicate that the first 50 features in our data separate the classes, as is expected from the way we generated the data. Of course there are better ways to determine parameter relevance. Here we showed an example of using naive Bayes which is just one of the implemented methods. Please consult the function reference and examples for additional documentation on the implemented methods.</p><h2>Crossvalidation<a name="13"></a></h2><p>In the previous, we use two separate datasets X1 and X2. Often, in an analysis one would want to perform crossvalidation on one dataset X. That is, the dataset is split up and each data subset is either used for training or for testing. This is facilitated by the dml.crossvalidator object. It takes a multivariate analysis object and a specification of the data subsets and automates the procedure. The stats field is then used to evaluate the results. For instance,</p><pre class="codeinput">X = rand(50,100); X(26:end,1:50) = 0.25+rand(25,50);
+</pre><p>Here, the field m.divergence contains an nvariables x 1 vector of KL divergences between the estimated Gaussians for each class. Hence, it gives a measure of separation. Let's plot them</p><pre class="codeinput">bar(m.divergence);
+</pre><img vspace="5" hspace="5" src="guide_01.png" alt=""> <p>The divergences indeed indicate that the first 50 features in our data separate the classes, as is expected from the way we generated the data. Of course there are better ways to determine parameter relevance. Here we showed an example of using naive Bayes which is just one of the implemented methods. Please consult the function reference and examples for additional documentation on the implemented methods.</p><h2>Multiple datasets<a name="14"></a></h2><p>Sometimes we deal with multiple datasets at the same time. These are trained in the same way by using cell-arrays of data:</p><pre class="codeinput">m = dml.naive;
+m = m.train({X1 X1},{Y1 Y1});
+Z = m.test({X2 X2});
+</pre><p>This is of use when we want to process multiple datasets in parallel or combine the data as in multitask learning. This calling convention presupposes that a method knows how to deal with multiple datasets. This is facilitated by using the dml.ndata class (see dml.naive for an example of its use).</p><h2>Multidimensional input<a name="16"></a></h2><p>We assume our data is of the form N x K or N x K x T while often our input data has a particular structure. Each method m has an m.indims field which we can use to specify this structure. That is, given m.indims = [X1 ... Xn], internally our data representation will take the form N x X1 x ... x Xn or N x X1 x ... x Xn x T. This is used, for instance, by the dml.searchlight method, which uses indims to traverse feature space in a particular way (see examples).</p><h2>Time series analysis<a name="17"></a></h2><p>Methods who use input data of the form N x K assume that all data within a trial is acquired at one static moment in time. If input data is of the form N x K x T then we are dealing with time series data (series of different length can be modeled using NaNs). As an example of the use of a time series analysis method we will perform parameter estimation in a linear dynamical system where our observations X are noisy versions of the state variable Y:</p><pre class="codeinput">N = 2; K = 10; T = 1000;
+ncycles = 10;
+Y = sin(ncycles * 2 * pi * (1:T) ./ T);
+Y = repmat(reshape(Y,[1 1 numel(Y)]),[N 1 1]);
+X = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T);
+m = dml.lds(<span class="string">'verbose'</span>,true,<span class="string">'maxiter'</span>,50);
+m = m.train(X,nan(size(Y))); <span class="comment">% hidden state estimation</span>
+U = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T);
+Z = m.test(U);
+figure
+plot(squeeze(U(1,1,:))',<span class="string">'b:'</span>);
+hold <span class="string">on</span>;
+plot(squeeze(Y(1,:,:))',<span class="string">'k'</span>);
+plot(squeeze(Z(1,:,:))',<span class="string">'r'</span>);
+legend(<span class="string">'noisy observation'</span>,<span class="string">'real state'</span>,<span class="string">'predicted state'</span>);
+</pre><pre class="codeoutput">EM step: 0; log likelihood: -7.45025e+06
+EM step: 1; log likelihood: -17617.5
+EM step: 2; log likelihood: -17617.5
+EM step: 3; log likelihood: -17617.4
+EM step: 4; log likelihood: -17617.4
+EM step: 5; log likelihood: -17617.4
+EM step: 6; log likelihood: -17617.3
+EM step: 7; log likelihood: -17617.2
+EM step: 8; log likelihood: -17617.1
+EM step: 9; log likelihood: -17617
+EM step: 10; log likelihood: -17616.8
+EM step: 11; log likelihood: -17616.5
+EM step: 12; log likelihood: -17616.1
+EM step: 13; log likelihood: -17615.3
+EM step: 14; log likelihood: -17613.9
+EM step: 15; log likelihood: -17611.2
+EM step: 16; log likelihood: -17605.1
+EM step: 17; log likelihood: -17588.7
+EM step: 18; log likelihood: -17534.3
+EM step: 19; log likelihood: -17325.3
+EM step: 20; log likelihood: -16776.6
+EM step: 21; log likelihood: -16118.5
+EM step: 22; log likelihood: -15612.3
+EM step: 23; log likelihood: -15289.3
+EM step: 24; log likelihood: -15120.3
+EM step: 25; log likelihood: -15049
+EM step: 26; log likelihood: -15023.5
+EM step: 27; log likelihood: -15014.8
+EM step: 28; log likelihood: -15011.5
+EM step: 29; log likelihood: -15009.9
+EM step: 30; log likelihood: -15009
+EM step: 31; log likelihood: -15008.4
+EM step: 32; log likelihood: -15008
+EM step: 33; log likelihood: -15007.8
+EM step: 34; log likelihood: -15007.6
+EM step: 35; log likelihood: -15007.5
+EM step: 36; log likelihood: -15007.5
+EM step: 37; log likelihood: -15007.4
+EM step: 38; log likelihood: -15007.4
+EM step: 39; log likelihood: -15007.4
+EM step: 40; log likelihood: -15007.4
+EM step: 41; log likelihood: -15007.4
+EM step: 42; log likelihood: -15007.4
+EM step: 43; log likelihood: -15007.3
+EM step: 44; log likelihood: -15007.3
+EM step: 45; log likelihood: -15007.3
+EM step: 46; log likelihood: -15007.3
+EM step: 47; log likelihood: -15007.3
+EM step: 48; log likelihood: -15007.3
+EM step: 49; log likelihood: -15007.3
+EM step: 50; log likelihood: -15007.3
+</pre><img vspace="5" hspace="5" src="guide_02.png" alt=""> <p>Note that we use nans to represent the state variable Y to indicate that it is unobserved. The dynamics of the predicted state is really close to the real state (necessarily sign and amplitude are not preserved).</p><h2>Crossvalidation<a name="19"></a></h2><p>In the previous, we use two separate datasets X1 and X2. Often, in an analysis one would want to perform crossvalidation on one dataset X. That is, the dataset is split up and each data subset is either used for training or for testing. This is facilitated by the dml.crossvalidator object. It takes a multivariate analysis object and a specification of the data subsets and automates the procedure. The stats field is then used to evaluate the results. For instance,</p><pre class="codeinput">X = rand(50,100); X(26:end,1:50) = 0.25+rand(25,50);
 Y = [ones(25,1); 2*ones(25,1)];
 m = dml.crossvalidator(<span class="string">'mva'</span>,{dml.standardizer dml.naive},<span class="string">'stat'</span>,<span class="string">'accuracy'</span>);
 m = m.train(X,Y);
@@ -137,40 +205,41 @@ ans =
     0.9600
     0.9600
 
-</pre><h2>Permutation testing<a name="20"></a></h2><p>In order to test whether the crossvalidation results are significant, we can use permutation testing, where we compare the results under random permutations of the output Y with the actual results:</p><pre class="codeinput">m = dml.permutation(<span class="string">'stat'</span>,<span class="string">'accuracy'</span>,<span class="string">'validator'</span>,dml.crossvalidator(<span class="string">'mva'</span>,{dml.standardizer dml.naive}),<span class="string">'nperm'</span>,20,<span class="string">'verbose'</span>,true);
+</pre><h2>Permutation testing<a name="26"></a></h2><p>In order to test whether the crossvalidation results are significant, we can use permutation testing, where we compare the results under random permutations of the output Y with the actual results:</p><pre class="codeinput">m = dml.permutation(<span class="string">'stat'</span>,<span class="string">'accuracy'</span>,<span class="string">'validator'</span>,dml.crossvalidator(<span class="string">'mva'</span>,{dml.standardizer dml.naive}),<span class="string">'nperm'</span>,20,<span class="string">'verbose'</span>,true);
 m = m.train(X,Y);
 p = m.statistic
-</pre><pre class="codeoutput">testing permutation 1 of 20: 0.42
+</pre><pre class="codeoutput">testing permutation 1 of 20: 0.44
 testing permutation 2 of 20: 0.52
-testing permutation 3 of 20: 0.48
-testing permutation 4 of 20: 0.40
-testing permutation 5 of 20: 0.40
-testing permutation 6 of 20: 0.36
-testing permutation 7 of 20: 0.60
-testing permutation 8 of 20: 0.42
-testing permutation 9 of 20: 0.48
-testing permutation 10 of 20: 0.64
-testing permutation 11 of 20: 0.52
-testing permutation 12 of 20: 0.36
-testing permutation 13 of 20: 0.46
-testing permutation 14 of 20: 0.58
+testing permutation 3 of 20: 0.40
+testing permutation 4 of 20: 0.44
+testing permutation 5 of 20: 0.58
+testing permutation 6 of 20: 0.48
+testing permutation 7 of 20: 0.44
+testing permutation 8 of 20: 0.68
+testing permutation 9 of 20: 0.56
+testing permutation 10 of 20: 0.50
+testing permutation 11 of 20: 0.58
+testing permutation 12 of 20: 0.50
+testing permutation 13 of 20: 0.38
+testing permutation 14 of 20: 0.56
 testing permutation 15 of 20: 0.40
-testing permutation 16 of 20: 0.40
-testing permutation 17 of 20: 0.56
-testing permutation 18 of 20: 0.50
-testing permutation 19 of 20: 0.58
-testing permutation 20 of 20: 0.50
+testing permutation 16 of 20: 0.70
+testing permutation 17 of 20: 0.54
+testing permutation 18 of 20: 0.34
+testing permutation 19 of 20: 0.44
+testing permutation 20 of 20: 0.44
 actual outcome: 1.00
 
 p =
 
      0
 
-</pre><p>This means that the null-hypothesis that the actual outcome is not significantly different from the permutated outcomes can be rejected. Note that, in practice, we need many more permutations to get a reliable result. The verbose option, which is available for other objects as well, gives diagnostic output.</p><h2>Bootstrap testing<a name="22"></a></h2><p>An important question is how stable the parameters are we estimate for our models. This question can be answered using bootstrap testing. Here, we resample data with replacement and verify how stable the parameter estimates are. For example:</p><pre class="codeinput">m = dml.bootstrap(<span class="string">'mva'</span>,{dml.standardizer dml.naive},<span class="string">'nboot'</span>,200);
+</pre><p>This means that the null-hypothesis that the actual outcome is not significantly different from the permutated outcomes can be rejected. Note that, in practice, we need many more permutations to get a reliable result. The verbose option, which is available for other objects as well, gives diagnostic output.</p><h2>Bootstrap testing<a name="28"></a></h2><p>An important question is how stable the parameters are we estimate for our models. This question can be answered using bootstrap testing. Here, we resample data with replacement and verify how stable the parameter estimates are. For example:</p><pre class="codeinput">m = dml.bootstrap(<span class="string">'mva'</span>,{dml.standardizer dml.naive},<span class="string">'nboot'</span>,200);
 m = m.train(X,Y);
 [mu,se] = m.statistic;
-</pre><p>gives the mean and standard error for all parameters which are returned by a method's model function. For instance, for naive Bayes, we can plot the divergences:</p><pre class="codeinput">errorbar(mu.divergence,se.divergence,<span class="string">'ko'</span>);
-</pre><img vspace="5" hspace="5" src="guide_02.png" alt=""> <h2>Grid search<a name="24"></a></h2><p>Methods may require the optimization of particular parameters. This can be achieved using the dml.gridsearch object. The gridsearch object takes a crossvalidator as argument, the parameters which needs to be optimized and the values these parameters may take on. The gridsearch can exploit warm starts; that is, for efficiency reasons, the employed multivariate analysis may start at the previous parameter settings when we test multiple values. This requires the 'restart' parameter in the used multivariate method to be set to false. Note that a gridsearch method can be used within a multivariate analysis pipeline. That is, it behaves as any other method.</p><p>In this example we show the use of the gridsearch together with the support vector machine:</p><pre class="codeinput">m = dml.gridsearch(<span class="string">'validator'</span>,dml.crossvalidator(<span class="string">'type'</span>,<span class="string">'split'</span>,<span class="string">'stat'</span>,<span class="string">'accuracy'</span>,<span class="string">'mva'</span>,dml.svm(<span class="string">'restart'</span>,false)),<span class="string">'vars'</span>,<span class="string">'C'</span>,<span class="string">'vals'</span>,fliplr(logspace(-4,1,5)),<span class="string">'verbose'</span>,true);
+</pre><p>gives the mean and standard error for all parameters which are returned by a method's model function. For instance, for naive Bayes, we can plot the divergences:</p><pre class="codeinput">figure;
+errorbar(mu.divergence,se.divergence,<span class="string">'ko'</span>);
+</pre><img vspace="5" hspace="5" src="guide_03.png" alt=""> <h2>Grid search<a name="30"></a></h2><p>Methods may require the optimization of particular parameters. This can be achieved using the dml.gridsearch object. The gridsearch object takes a crossvalidator as argument, the parameters which needs to be optimized and the values these parameters may take on. The gridsearch can exploit warm starts; that is, for efficiency reasons, the employed multivariate analysis may start at the previous parameter settings when we test multiple values. This requires the 'restart' parameter in the used multivariate method to be set to false. Note that a gridsearch method can be used within a multivariate analysis pipeline. That is, it behaves as any other method.</p><p>In this example we show the use of the gridsearch together with the support vector machine:</p><pre class="codeinput">m = dml.gridsearch(<span class="string">'validator'</span>,dml.crossvalidator(<span class="string">'type'</span>,<span class="string">'split'</span>,<span class="string">'stat'</span>,<span class="string">'accuracy'</span>,<span class="string">'mva'</span>,dml.svm(<span class="string">'restart'</span>,false)),<span class="string">'vars'</span>,<span class="string">'C'</span>,<span class="string">'vals'</span>,fliplr(logspace(-4,1,5)),<span class="string">'verbose'</span>,true);
 m = m.train(X,Y);
 </pre><pre class="codeoutput">optimizing variable(s) dml.svm.C
 evaluating configuration 1 of 5: dml.svm.C=10.000000
@@ -184,7 +253,7 @@ evaluating configuration 4 of 5: dml.svm.C=0.001778
 evaluating configuration 5 of 5: dml.svm.C=0.000100
  : 1.000000
 retraining optimum configuration dml.svm.C=10.000000 using all data
-</pre><h2>Customization<a name="25"></a></h2><p>It is easy to write your own wrapper to a new method or even to another toolbox. This new method should be a Matlab class which inherits from the dml.method class and is required to implement the train and test functions. Optionally, it may implement the model function which returns the method's parameters in a suitable form. Comments should follow help coding conventions as shown in the following template:</p><pre>classdef mymethod &lt; dml.method
+</pre><h2>Customization<a name="31"></a></h2><p>It is easy to write your own wrapper to a new method or even to another toolbox. This new method should be a Matlab class which inherits from the dml.method class and is required to implement the train and test functions. Optionally, it may implement the model function which returns the method's parameters in a suitable form. Comments should follow help coding conventions as shown in the following template:</p><pre>classdef mymethod &lt; dml.method
 % MYMETHOD short description (max 50 characters) ending with a period.
 %
 % DESCRIPTION
@@ -206,23 +275,29 @@ retraining optimum configuration dml.svm.C=10.000000 using all data
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Introduction
-% The Donders Machine Learning (DML) toolbox is an extensible
-% machine learning toolbox written in Matlab, tailored to the analysis of
-% neural data. The DML package contains high-level functionality as well as
+% The Donders Machine Learning Toolbox (DML) is an extensible machine
+% learning toolbox written in Matlab, tailored to the analysis of neural
+% data. The DML package contains high-level functionality as well as
 % implemented multivariate methods.
 
-%% Data
-% Input data takes the form of an nsamples x nvariables matrix. Output data
-% takes the same form. For classification and regression, the output data
-% is assumed to be an nsamples x 1 vector. For classification, this vector
-% contains class labels 1,2,... For regressions this vector contains real
-% values. Multiple outputs are handled by specialized methods. Missing data
-% is indicated using NaN values. Multiple datasets can also be used as an
-% argument, which is represented using a cell-array. More exotic uses will
-% be covered in the examples section. For now lets focus on a
-% classification problem and generate some artificial training data and
-% test data:
-rand('seed',1);
+%% Input and output 
+% Input data takes the form of an N x K or N x K x T matrix with N the
+% number of trials, K the number of variables and T the number of time
+% samples. The latter representation is only used in case of time series
+% analysis methods. Output data takes the form of N x M matrix. Missing
+% data in the input or output is indicated using NaN values. Multiple
+% outputs where Y is an N x K matrix are handled by specialized methods
+% (see examples section). In case of classification and regression
+% problems, the output data is assumed to be an N x 1 vector. For
+% classification, this vector contains class labels 1,2,..., e.g.
+Y = [1 1 1 1 2 2 2 2]';
+%%
+% For regression this vector contains real values, e.g.
+Y = [0.12 -1.23 2.4 1.1 -0.03]';
+%%
+% For now lets focus on a classification problem and generate some
+% artificial training data (X1,Y1) and test data (X2,Y2):
+rand('seed',1); % initialize random number generator
 X1 = rand(50,100); X1(26:end,1:50) = 0.15+rand(25,50);
 X2 = rand(50,100); X2(26:end,1:50) = 0.15+rand(25,50);
 Y1 = [ones(25,1); 2*ones(25,1)];
@@ -230,10 +305,11 @@ Y2 = [ones(25,1); 2*ones(25,1)];
 
 %% Methods
 % A method is a class which contains a train function and a test function.
-% A method's train function can either learn a transformation of X itself
-% (in which case Y is left unspecified) or learn a transformation from X to
-% Y, as in supervised learning. A method's test function takes input data X
-% and transforms this data to an output Y. For instance,
+% All methods inherit from the abstract dml.method class. A method's train
+% function can either learn a transformation of X itself in which case Y is
+% left unspecified (as in supervised learning) or learn a transformation
+% from X to Y, as in supervised learning. A method's test function takes
+% input data X and transforms this data to an output Y. For instance,
 m = dml.standardizer;
 m = m.train(X1);
 Z = m.test(X1);
@@ -250,28 +326,17 @@ Z = m.test(X2);
 % probability distribution over class labels:
 Z(1:5,:)
 %%
-% Multiple datasets are trained in the same way:
-m = dml.naive;
-m = m.train({X1 X1},{Y1 Y1});
-Z = m.test({X2 X2});
-%%
-% This is of use when we want to process multiple datasets in parallel or
-% combine the data as in multitask learning. This calling convention
-% presupposes that a method knows how to deal with multiple datasets. This
-% can be facilitated by using the dml.ndata class (see dml.naive for an
-% example of its use).
 %
-% While we may call methods directly, it is often convenient to
-% encapsulate them in a multivariate analysis object. This object just
-% provides storage for a sequence of multivariate analysis methods. For
-% instance,
-m = dml.analysis({dml.standardizer dml.naive});
-m = m.train(X1,Y1);
-Z = m.test(X2);
+% While we may call methods directly, it is often convenient to encapsulate
+% them in a multivariate analysis object. This object just provides storage
+% for a sequence of multivariate analysis methods. For instance,
+a = dml.analysis({dml.standardizer dml.naive});
+a = a.train(X1,Y1);
+Z = a.test(X2);
 %%
-% creates a multivariate analysis object, trains a sequence of
-% methods and the applies the trained object to data. In order to test the
-% performance, we can for example compute the classification accuracy
+% creates a multivariate analysis object, trains a sequence of methods and
+% the applies the trained object to data. In order to test the performance,
+% we can for example compute the classification accuracy
 dml.statistic('accuracy',Y2,Z)
 %%
 % or use a binomial test for significance
@@ -279,23 +344,24 @@ dml.statistic('binomial',Y2,Z)
 %%
 % Low p values indicate that the outcome is significantly different from
 % random classification. For a more stringent significance test, consult
-% the permutation test section. For other statistics please consult dml.statistic.
+% the permutation test section. For other statistics please consult
+% dml.statistic.
 % 
 % Instead of examining decoding performance, one may want to examine the
 % parameters of the decoding method in order to be able to identify which
 % features play an important role in the decoding. For this, we can use the
 % model function which is implemented by most methods. This function
 % returns a struct with various diagnostic parameters.
-s = m.model;
+m = a.model;
 %%
 % The meaning of these parameters depends on the used method and can be
 % consulted by invoking the help:
 help dml.naive.model;
 %%
-% Here, the field s.divergence contains an nvariables x 1 vector of KL
+% Here, the field m.divergence contains an nvariables x 1 vector of KL
 % divergences between the estimated Gaussians for each class. Hence, it
 % gives a measure of separation. Let's plot them
-bar(s.divergence);
+bar(m.divergence);
 %%
 % The divergences indeed indicate that the first 50 features in our data
 % separate the classes, as is expected from the way we generated the data.
@@ -304,6 +370,56 @@ bar(s.divergence);
 % implemented methods. Please consult the function reference and examples
 % for additional documentation on the implemented methods.
 
+%% Multiple datasets
+% Sometimes we deal with multiple datasets at the same time. These are
+% trained in the same way by using cell-arrays of data:
+m = dml.naive;
+m = m.train({X1 X1},{Y1 Y1});
+Z = m.test({X2 X2});
+%%
+% This is of use when we want to process multiple datasets in parallel or
+% combine the data as in multitask learning. This calling convention
+% presupposes that a method knows how to deal with multiple datasets. This
+% is facilitated by using the dml.ndata class (see dml.naive for an
+% example of its use).
+
+%% Multidimensional input
+% We assume our data is of the form N x K or N x K x T while often our
+% input data has a particular structure. Each method m has an m.indims
+% field which we can use to specify this structure. That is, given m.indims
+% = [X1 ... Xn], internally our data representation will take the form N x
+% X1 x ... x Xn or N x X1 x ... x Xn x T. This is used, for instance, by
+% the dml.searchlight method, which uses indims to traverse feature space
+% in a particular way (see examples).
+
+
+%% Time series analysis
+% Methods who use input data of the form N x K assume that all data within
+% a trial is acquired at one static moment in time. If input data is of the
+% form N x K x T then we are dealing with time series data (series of
+% different length can be modeled using NaNs). As an example of the use of
+% a time series analysis method we will perform parameter estimation in a
+% linear dynamical system where our observations X are noisy versions of
+% the state variable Y:
+N = 2; K = 10; T = 1000; 
+ncycles = 10; 
+Y = sin(ncycles * 2 * pi * (1:T) ./ T);
+Y = repmat(reshape(Y,[1 1 numel(Y)]),[N 1 1]);
+X = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T); 
+m = dml.lds('verbose',true,'maxiter',50);
+m = m.train(X,nan(size(Y))); % hidden state estimation
+U = repmat(Y,[1 K 1]) + 0.5*randn(N,K,T);
+Z = m.test(U);
+figure
+plot(squeeze(U(1,1,:))','b:');
+hold on;
+plot(squeeze(Y(1,:,:))','k');
+plot(squeeze(Z(1,:,:))','r');
+legend('noisy observation','real state','predicted state');
+%%
+% Note that we use nans to represent the state variable Y to indicate that
+% it is unobserved. The dynamics of the predicted state is really close to
+% the real state (necessarily sign and amplitude are not preserved).
 %% Crossvalidation
 % In the previous, we use two separate datasets X1 and X2. Often, in an
 % analysis one would want to perform crossvalidation on one dataset X. That
@@ -376,6 +492,7 @@ m = m.train(X,Y);
 % gives the mean and standard error for all parameters which are returned
 % by a method's model function. For instance, for naive Bayes, we can plot
 % the divergences:
+figure;
 errorbar(mu.divergence,se.divergence,'ko');
 %% Grid search
 % Methods may require the optimization of particular parameters. This can

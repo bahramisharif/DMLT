@@ -58,12 +58,16 @@
       </div>
       <table class="summary-list">
          <tr class="summary-item">
+            <td class="name"><a href="matlab:helpwin('dml.standardizer.indims')">indims</a></td>
+            <td class="m-help">dimensions of the input data (excluding the trial dim and time dim in time series data)&nbsp;</td>
+         </tr>
+         <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.mu')">mu</a></td>
             <td class="m-help">mean&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.restart')">restart</a></td>
-            <td class="m-help">when false, starts at the previously learned parameters &nbsp;</td>
+            <td class="m-help">when false, starts at the previously learned parameters; needed for online learning and grid search&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.standardizer.sigma')">sigma</a></td>

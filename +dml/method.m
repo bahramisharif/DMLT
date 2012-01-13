@@ -8,15 +8,16 @@ classdef method
 %   DEVELOPER
 %   Marcel van Gerven (m.vangerven@donders.ru.nl)
 
-
-
   properties
   
     verbose = false; % whether or not to generate diagnostic output
     
-    % when false, starts at the previously learned parameters 
-    % needed for online learning and grid search
+    % when false, starts at the previously learned parameters; needed for online learning and grid search
     restart = true; 
+    
+    % dimensions of the input data (excluding the trial dim and time dim in time series data)
+    % e.g. for N x K x T data, indims = [U V] will give N x U x V x T data.
+    indims = []; 
     
   end
   

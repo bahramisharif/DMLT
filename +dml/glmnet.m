@@ -120,7 +120,7 @@ classdef glmnet < dml.method
         
         if isempty(obj.validator.stat)
           if strcmp(obj.family,'gaussian')
-            obj.validator.stat='correlation';
+            obj.validator.stat='-RMS';
           else
             obj.validator.stat='logprob';
           end
