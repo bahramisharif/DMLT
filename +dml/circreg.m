@@ -43,7 +43,7 @@ classdef circreg < dml.method
         
         method = 3;   % method used to estimate model (1=standard, 2=generalized method of moments, 3=second harmonics)
         
-        lambda = 0;   % regularization parameter for the mean (only defined for gradient descent)
+        lambda = 10;  % regularization parameter for the mean (only defined for gradient descent)
         repeat = 1;   % number of repeats for gradient descent (multiple local maxima)
         
         outer = 1;    % maximum number of outer loop iterations in mixed estimation       
@@ -80,7 +80,7 @@ classdef circreg < dml.method
               % mean is dependent on X
               obj = obj.train_mean(X,rtheta);
               for j=2:obj.repeat
-                o = obj; o.beta = randn(size(X,2),1);
+                o = obj; o.beta = 1e-6*randn(size(X,2),1);
                 o = o.train_mean(X,rtheta);
                 if o.likelihood > obj.likelihood, obj = o; end
               end
@@ -124,7 +124,7 @@ classdef circreg < dml.method
           if obj.verbose, fprintf('estimating mean\n'); end
           
           if isempty(obj.beta) % if not yet initialized
-            obj.beta = randn(size(X,2),1);
+            obj.beta = zeros(size(X,2),1); %1e-6*randn(size(X,2),1);
           end
           
 %           options.Method='lbfgs';
@@ -135,16 +135,18 @@ classdef circreg < dml.method
 %           %obj.beta = minFunc(@(b)regGMMreg(b(:),theta,X,obj.lambda),b(:),options);
           
           b = obj.beta;
+          warning off;
           options.Method='cg';
           options.MaxIter=10000;
           options.MaxFunEvals=10000;
           if obj.method==1
-            obj.beta = minFunc(@(b)regGMMreg(b(:),theta,X,obj.lambda),b(:),options);
-          elseif obj.method==2
             obj.beta = minFunc(@(b)regCreg(b(:),theta,X,obj.lambda),b(:),options);
+          elseif obj.method==2
+            obj.beta = minFunc(@(b)regGMMreg(b(:),theta,X,obj.lambda),b(:),options);
           else
             obj.beta = minFunc(@(b)regCHreg(b(:),theta,X,obj.lambda),b(:),options);
           end
+          warning on;
           
           u = X * obj.beta;
           lx = 2*atan(u); % link function
