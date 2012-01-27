@@ -45,16 +45,6 @@
     c = c.train(X,Y);
     disp([c.mu c.kappa c.beta']);
  
-    % generate data using mean mu and X-dependent concentration kappa
-    X = randn(1000,3);
-    c = dml.circreg('mu',0,'gamma',[-10 0 10]','kappa',0);
-    Y = c.sample(X);
- 
-    % check estimation
-    c = dml.circreg('mode','concentration','verbose',true);
-    c = c.train(X,Y);
-    disp([c.mu c.kappa c.gamma']);
- 
     DEVELOPER
     Marcel van Gerven (m.vangerven@donders.ru.nl)
     Ali Bahramisharfi (ali@cs.ru.nl)</pre></div><!--after help -->
@@ -116,8 +106,8 @@
             <td class="m-help">stored loglikelihood&nbsp;</td>
          </tr>
          <tr class="summary-item">
-            <td class="name"><a href="matlab:helpwin('dml.circreg.mode')">mode</a></td>
-            <td class="m-help">type of circular regression: none, mean, concentration, mixed&nbsp;</td>
+            <td class="name"><a href="matlab:helpwin('dml.circreg.method')">method</a></td>
+            <td class="m-help">method used to estimate model (1=standard, 2=generalized method of moments, 3=second harmonics)&nbsp;</td>
          </tr>
          <tr class="summary-item">
             <td class="name"><a href="matlab:helpwin('dml.circreg.mu')">mu</a></td>

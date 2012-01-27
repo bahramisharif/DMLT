@@ -32,7 +32,12 @@
  
     EXAMPLE
     X = rand(10,20); Y = [1 1 1 1 1 2 2 2 2 2]';
-    m = dml.glmnet
+    m = dml.glmnet('family','binomial');
+    m = m.train(X,Y);
+    Z = m.test(X);
+ 
+    X = rand(15,20); Y = [1 1 1 1 1 2 2 2 2 2 3 3 3 3 3]'; X(1:5,:) = X(1:5,:)+1;
+    m = dml.glmnet('family','multinomial');
     m = m.train(X,Y);
     Z = m.test(X);
  

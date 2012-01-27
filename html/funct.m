@@ -12,6 +12,8 @@
 % * <method.html |dml.method|> - abstract class for multivariate methods
 % * <naive.html |dml.naive|> - gaussian naive Bayes classifier
 % * <ndata.html |dml.ndata|> - wrapper class to make methods handle multiple datas
+% * <one_against_one.html |dml.one_against_one|> - one-against-one binary classification
+% * <one_against_rest.html |dml.one_against_rest|> - one-against-rest binary classification
 % * <permutation.html |dml.permutation|> - permutation testing class
 % * <prior.html |dml.prior|> - used to created smoothing and shrinkage priors
 % * <searchlight.html |dml.searchlight|> - searchlight analysis
