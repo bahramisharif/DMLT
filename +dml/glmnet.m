@@ -16,7 +16,12 @@ classdef glmnet < dml.method
 %
 %   EXAMPLE
 %   X = rand(10,20); Y = [1 1 1 1 1 2 2 2 2 2]';
-%   m = dml.glmnet
+%   m = dml.glmnet('family','binomial');
+%   m = m.train(X,Y);
+%   Z = m.test(X);
+%
+%   X = rand(15,20); Y = [1 1 1 1 1 2 2 2 2 2 3 3 3 3 3]'; X(1:5,:) = X(1:5,:)+1;
+%   m = dml.glmnet('family','multinomial');
 %   m = m.train(X,Y);
 %   Z = m.test(X);
 %
@@ -196,7 +201,11 @@ classdef glmnet < dml.method
           
         end
         
-        obj.weights = obj.weights(:,end);
+        if strcmp(obj.family,'multinomial')
+          obj.weights = obj.weights(:,:,end);
+        else
+          obj.weights = obj.weights(:,end);
+        end
         obj.performance = mean(obj.performance,1);
         
       else % return result for specified lambda; no cross-validation
@@ -204,7 +213,11 @@ classdef glmnet < dml.method
         if isscalar(obj.lambda)
 
           obj.weights = obj.estimate(X,Y,obj.family,opts);
-          obj.weights = obj.weights(:,end);
+          if strcmp(obj.family,'multinomial')
+            obj.weights = obj.weights(:,:,end);
+          else
+            obj.weights = obj.weights(:,end);
+          end
           
         else
           
@@ -267,8 +280,8 @@ classdef glmnet < dml.method
       % m.weights regression coefficients
       % m.bias bias term
       
-      m.weights = obj.weights(1:(end-1));
-      m.bias = obj.weights(end);
+      m.weights = obj.weights(1:(end-1),:);
+      m.bias = obj.weights(end,:);
       
     end
     

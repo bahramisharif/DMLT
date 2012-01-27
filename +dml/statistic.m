@@ -5,7 +5,8 @@ function s = statistic(stat,D,P)
 %   Computes test statistic stat for a nsamples x nvars design matrix D and a
 %   nsamples x nvars prediction matrix P. 
 %
-%   available statistics:
+%   Available statistics:
+%
 %   'accuracy'    : proportion of correctly classified samples
 %   'logprob'     : log probability of the correct class
 %   'correlation' : correlation between input and output matrices
@@ -17,6 +18,9 @@ function s = statistic(stat,D,P)
 %   'MAD'         :  mean absolute deviation in degrees for angles specified
 %                   in radians
 %   'RMS'         : root-mean-square error
+%   'tlin'        : t-linear statistic to measure goodness of fit for
+%                   circular data with angles specified in radians 
+%                   using fisher's correlation coefficient.
 %
 %   NOTE: notation '-x' with x one of the above is also allowed. This way
 %   error measures such as 'MAD' can be used as a performance measure by
@@ -91,6 +95,11 @@ function s = statistic(stat,D,P)
       
       s = sqrt(mean((D-P).^2));
       
+    case 'tlin'
+      
+      n=length(P);
+      s=4*(sum(cos(P).*cos(D))*sum(sin(P).*sin(D))-sum(cos(P).*sin(D))*sum(sin(P).*cos(D)))/sqrt((n.^2-sum(cos(2*P)).^2-sum(sin(2*P)).^2)*(n.^2-sum(cos(2*D)).^2-sum(sin(2*D)).^2));
+
     otherwise
       error('unknown statistic %s',stat);
       

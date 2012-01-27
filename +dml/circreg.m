@@ -29,16 +29,6 @@ classdef circreg < dml.method
 %   c = c.train(X,Y);
 %   disp([c.mu c.kappa c.beta']);
 %
-%   % generate data using mean mu and X-dependent concentration kappa
-%   X = randn(1000,3);
-%   c = dml.circreg('mu',0,'gamma',[-10 0 10]','kappa',0);
-%   Y = c.sample(X);
-%
-%   % check estimation
-%   c = dml.circreg('mode','concentration','verbose',true);
-%   c = c.train(X,Y);
-%   disp([c.mu c.kappa c.gamma']);
-%
 %   DEVELOPER
 %   Marcel van Gerven (m.vangerven@donders.ru.nl)
 %   Ali Bahramisharfi (ali@cs.ru.nl)
@@ -50,10 +40,10 @@ classdef circreg < dml.method
 
         beta          % regression coefficients for the mean
         gamma         % regression coefficients for the concentration
-                        
-        mode =  'none' % type of circular regression: none, mean, concentration, mixed
-              
-        lambda = 10;  % regularization parameter for the mean (only defined for gradient descent)
+        
+        method = 3;   % method used to estimate model (1=standard, 2=generalized method of moments, 3=second harmonics)
+        
+        lambda = 0;   % regularization parameter for the mean (only defined for gradient descent)
         repeat = 1;   % number of repeats for gradient descent (multiple local maxima)
         
         outer = 1;    % maximum number of outer loop iterations in mixed estimation       
@@ -80,26 +70,23 @@ classdef circreg < dml.method
         
             if isempty(X), X = nan(size(Y)); end
             
-            switch obj.mode
+            if isempty(X) || all(isnan(X(:)))
               
-              case 'none'
-                obj = obj.train_none(X,rtheta);
-              case 'mean'
-                obj = obj.train_mean(X,rtheta);
-                for j=2:obj.repeat
-                  o = obj; o.beta = randn(size(X,2),1);
-                  o = o.train_mean(X,rtheta);
-                  if o.likelihood > obj.likelihood, obj = o; end
-                end
-              case 'concentration'
-                obj = obj.train_concentration(X,rtheta);
-              case 'mixed'
-                obj = ojb.train_mixed(X,rtheta);
-              otherwise
-                error('unknown mode');
-                
+              % estimate fixed model
+              obj = obj.train_none(X,rtheta);
+              
+            else
+              
+              % mean is dependent on X
+              obj = obj.train_mean(X,rtheta);
+              for j=2:obj.repeat
+                o = obj; o.beta = randn(size(X,2),1);
+                o = o.train_mean(X,rtheta);
+                if o.likelihood > obj.likelihood, obj = o; end
+              end
+              
             end
-            
+                    
         end
         
         function obj = train_none(obj,X,theta)
@@ -134,18 +121,30 @@ classdef circreg < dml.method
         function obj = train_mean(obj,X,theta)
           % estimate mean using regressors
           
-          if obj.verbose
-            fprintf('estimating mean\n');
-          end
+          if obj.verbose, fprintf('estimating mean\n'); end
           
           if isempty(obj.beta) % if not yet initialized
             obj.beta = randn(size(X,2),1);
           end
           
-          options.Method='lbfgs';
-          if ~obj.verbose, options.Display = 'off'; end
+%           options.Method='lbfgs';
+%          % options.Method='cg';
+%           if ~obj.verbose, options.Display = 'off'; end
+%           b = obj.beta;
+%           obj.beta = minFunc(@(b)regCreg(b(:),theta,X,obj.lambda),b(:),options);
+%           %obj.beta = minFunc(@(b)regGMMreg(b(:),theta,X,obj.lambda),b(:),options);
+          
           b = obj.beta;
-          obj.beta = minFunc(@(b)regCreg(b(:),theta,X,obj.lambda),b(:),options);
+          options.Method='cg';
+          options.MaxIter=10000;
+          options.MaxFunEvals=10000;
+          if obj.method==1
+            obj.beta = minFunc(@(b)regGMMreg(b(:),theta,X,obj.lambda),b(:),options);
+          elseif obj.method==2
+            obj.beta = minFunc(@(b)regCreg(b(:),theta,X,obj.lambda),b(:),options);
+          else
+            obj.beta = minFunc(@(b)regCHreg(b(:),theta,X,obj.lambda),b(:),options);
+          end
           
           u = X * obj.beta;
           lx = 2*atan(u); % link function
